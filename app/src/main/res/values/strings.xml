@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Cheloc</string>
+    <string name="Latitude">Ширина</string>
+    <string name="Longitude">Долгота</string>
+    <string name="Altitude">Высота</string>
+    <string name="latitudePos">53.923269</string>
+    <string name="longtitudePos">27.596573</string>
+    <string name="altitudePos">203</string>
+    <string name="setLocationButton">Задать положение</string>
+    <string name="deleteLocationTextView">Удалить установленную локацию, если она существует?</string>
+    <string name="deleteLocationButton">Ок</string>
+    <string name="openLocationLinearLayoutButton">Задание положения</string>
+    <string name="openDeleteLocationLinearLayout">Отмена положения</string>
+    <string name="voteTextView">Выберите действие</string>
+    <string name="textCurGpsLocation">Gps положение: </string>
+    <string name="textCurNtwrkLocation">Сетевое положение: </string>
+</resources>
