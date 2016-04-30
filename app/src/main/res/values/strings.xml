@@ -14,4 +14,5 @@
     <string name="voteTextView">Выберите действие</string>
     <string name="textCurGpsLocation">Gps положение: </string>
     <string name="textCurNtwrkLocation">Сетевое положение: </string>
+    <string name="consoleTextView">Консоль сообщений</string>
 </resources>

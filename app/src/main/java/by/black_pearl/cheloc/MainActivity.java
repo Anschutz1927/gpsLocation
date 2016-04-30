@@ -1,6 +1,7 @@
 package by.black_pearl.cheloc;
 
 import android.Manifest;
+import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,17 +14,21 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener{
 
-    MockLocationProvider mockLocationProvider;
-
-    LocationManager locationManager;
+    private MockLocationProvider mockLocationProvider;
+    private LocationManager locationManager;
+    private TextView console;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.openDeleteLocationLinearLayout).setOnClickListener(this);
         findViewById(R.id.setLocationButton).setOnClickListener(this);
         findViewById(R.id.deleteLocationButton).setOnClickListener(this);
+        console = (TextView)findViewById(R.id.console);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        console.append("\n-getted System Service to locationManager.");
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                                PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -45,20 +55,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            console.append("\n -no permissions to MOCK... canceled.");
             return;
         }
-        showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+        try{
+            showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+            console.append("\n -showed last location from gps provider.");
+        }
+        catch (Exception e) {
+            console.append("\n -EXEPTION last location: " + e.getMessage());
+        }
 
     }
 
-    private void changeLocation() {
-        mockLocationProvider = new MockLocationProvider(this);
-        String latitude = ((EditText) (findViewById(R.id.latitudeEditText))).getText().toString();
-        String longtitude = ((EditText) (findViewById(R.id.longtitudeEditText))).getText().toString();
-        String altitude = ((EditText) (findViewById(R.id.altitudeEditText))).getText().toString();
-
-        mockLocationProvider.setLocation(Double.valueOf(latitude), Double.valueOf(longtitude),
-                Integer.valueOf(altitude));
+    private void showLocation(Location location) {
+        if(location == null){
+            console.append("\n -location null.");
+            return;
+        }
+        String strLocation = location.getLatitude() + "; " +
+                location.getLongitude() + "; " + location.getAltitude() + ";";
+        if(location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+            ((TextView)findViewById(R.id.curGpsLocationTextView)).setText(strLocation);
+        }
+        else {
+            ((TextView)findViewById(R.id.curNtwrkLocationTextView)).setText(strLocation);
+        }
     }
 
     /**
@@ -68,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
+        console.append("\n -clicked on " + ((Button)v).getText());
         switch (v.getId()) {
             case R.id.openLocationLinearLayoutButton:
                 findViewById(R.id.voteLinearLayuot).setVisibility(View.GONE);
@@ -93,11 +116,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void changeLocation() {
+        mockLocationProvider = new MockLocationProvider(this);
+        String latitude = ((EditText) (findViewById(R.id.latitudeEditText))).getText().toString();
+        String longtitude = ((EditText) (findViewById(R.id.longtitudeEditText))).getText().toString();
+        String altitude = ((EditText) (findViewById(R.id.altitudeEditText))).getText().toString();
+        console.append("\n -added new mock provider.");
+
+        mockLocationProvider.setLocation(Double.valueOf(latitude), Double.valueOf(longtitude),
+                Integer.valueOf(altitude));
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -107,17 +144,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
+        console.append("\n -setting requestLocationUpdates to 1000...");
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+        }
+        catch (Exception e) {
+            console.append("\n -...set gps EXEPTION: " + e.getMessage());
+            Log.i("GPS EXEPTION", "unfortunely: " + "locationManager.requestLocationUpdates" +
+                    "(LocationManager.GPS_PROVIDER, 1000, 0, this);");
+            Log.i("=========TAG=========", e.getMessage());
+        }
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
+        }
+        catch (Exception e) {
+            console.append("\n -...set network EXEPTION: " + e.getMessage());
+            Log.i("NETWORK EXEPTION", "unfortunely: " + "locationManager.requestLocationUpdates" +
+                            "(LocationManager.NETWORK_PROVIDER, 1000, 0, this);");
+            Log.i("=========TAG=========", e.getMessage());
+        }
 
-        checkEnabeled();
+        checkEnabled();
+        console.append("\n -checked enable providers.");
+    }
+
+    private void checkEnabled() {
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            ((TextView)findViewById(R.id.endisGpsTextView)).setText("Enable: ");
+            console.append("\n -gps enable.");
+        }
+        else {
+            ((TextView)findViewById(R.id.endisGpsTextView)).setText("Disable.");
+            console.append("\n -gps disable.");
+        }
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            ((TextView)findViewById(R.id.endisNtwrkTextView)).setText("Enable: ");
+            console.append("\n -network enable.");
+        }
+        else {
+            ((TextView)findViewById(R.id.endisNtwrkTextView)).setText("Disable.");
+            console.append("\n -network disable.");
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -128,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         locationManager.removeUpdates(this);
+        console.append("\n -requestUpdates removed.");
     }
 
     /**
@@ -167,7 +245,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
+        console.append("\n -status changed: provider = " + provider +
+                ", status: " + String.valueOf(status) + ".");
     }
 
     /**
@@ -178,8 +257,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onProviderEnabled(String provider) {
-        checkEnabeled();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        checkEnabled();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -202,35 +284,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onProviderDisabled(String provider) {
-        checkEnabeled();
+        checkEnabled();
+        console.append("\n -provider disabled: " + provider + ".");
     }
 
-    private void showLocation(Location location) {
-        if(location == null){
-            return;
-        }
-        String strLocation = location.getLatitude() + "; " +
-                location.getLongitude() + "; " + location.getAltitude() + ";";
-        if(location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-            ((TextView)findViewById(R.id.curGpsLocationTextView)).setText(strLocation);
-        }
-        else {
-            ((TextView)findViewById(R.id.curNtwrkLocationTextView)).setText(strLocation);
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 0, 0, "Show console...");
+        menu.add(1, 1, 1, "Close console");
+        menu.add(2, 2, 2, "Close");
+        menu.setGroupVisible(0, false);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private void checkEnabeled() {
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            ((TextView)findViewById(R.id.endisGpsTextView)).setText("Enable: ");
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                (findViewById(R.id.consoleLinearLayout)).setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                (findViewById(R.id.consoleLinearLayout)).setVisibility(View.GONE);
+                break;
+            case 2:
+                this.finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(menu.getItem(0).isVisible()) {
+            menu.setGroupVisible(0, false);
+            menu.setGroupVisible(1, true);
         }
         else {
-            ((TextView)findViewById(R.id.endisGpsTextView)).setText("Disable.");
+            menu.setGroupVisible(0, true);
+            menu.setGroupVisible(1, false);
         }
-        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            ((TextView)findViewById(R.id.endisNtwrkTextView)).setText("Enable: ");
-        }
-        else {
-            ((TextView)findViewById(R.id.endisNtwrkTextView)).setText("Disable.");
-        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void addLogToConsole(String logText) {
+        console.append("\n -" + logText);
     }
 }
