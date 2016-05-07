@@ -220,6 +220,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="50dp" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setLocationServiceButton"
+            android:id="@+id/setLocationServiceButton"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -260,8 +268,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button" />
+            android:text="@string/checkerGpsUpdatesButton"
+            android:id="@+id/checkerGpsUpdatesButton" />
     </LinearLayout>
 
 </LinearLayout>

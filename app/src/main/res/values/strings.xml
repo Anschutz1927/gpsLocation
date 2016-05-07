@@ -6,7 +6,8 @@
     <string name="latitudePos">53.923269</string>
     <string name="longtitudePos">27.596573</string>
     <string name="altitudePos">203</string>
-    <string name="setLocationButton">Задать положение</string>
+    <string name="setLocationButton">Задать положение без обновлений</string>
+    <string name="setLocationServiceButton">Задать положение с обновлениями</string>
     <string name="deleteLocationTextView">Удалить установленную локацию, если она существует?</string>
     <string name="deleteLocationButton">Ок</string>
     <string name="openLocationLinearLayoutButton">Задание положения</string>
@@ -15,4 +16,5 @@
     <string name="textCurGpsLocation">Gps положение: </string>
     <string name="textCurNtwrkLocation">Сетевое положение: </string>
     <string name="consoleTextView">Консоль сообщений</string>
+    <string name="checkerGpsUpdatesButton">Start/StopChckGPSupd</string>
 </resources>

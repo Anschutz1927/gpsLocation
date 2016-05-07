@@ -24,6 +24,10 @@
         <service
             android:name=".CounterGpsUpdatesService"
             android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".SetterMockLocationService"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 

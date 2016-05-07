@@ -1,34 +1,29 @@
 package by.black_pearl.cheloc;
 
 import android.Manifest;
-import android.app.Application;
-import android.app.Service;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.provider.Settings;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener{
 
     private MockLocationProvider mockLocationProvider;
     private LocationManager locationManager;
     private TextView console;
+    private boolean counterGpsUpdateService = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.openLocationLinearLayoutButton).setOnClickListener(this);
         findViewById(R.id.openDeleteLocationLinearLayout).setOnClickListener(this);
         findViewById(R.id.setLocationButton).setOnClickListener(this);
+        findViewById(R.id.setLocationServiceButton).setOnClickListener(this);
         findViewById(R.id.deleteLocationButton).setOnClickListener(this);
+        findViewById(R.id.checkerGpsUpdatesButton).setOnClickListener(this);
         console = (TextView)findViewById(R.id.console);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -48,13 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         PackageManager.PERMISSION_GRANTED &&
                         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
                                 PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             console.append("\n -no permissions to MOCK... canceled.");
             return;
         }
@@ -105,6 +95,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 findViewById(R.id.voteLinearLayuot).setVisibility(View.VISIBLE);
                 this.changeLocation();
                 break;
+            case R.id.setLocationServiceButton:
+                findViewById(R.id.addLocationLinearLayout).setVisibility(View.GONE);
+                findViewById(R.id.voteLinearLayuot).setVisibility(View.VISIBLE);
+                this.StartChangeLocationService();
+                break;
             case R.id.deleteLocationButton:
                 findViewById(R.id.deleteLocationLinearLayout).setVisibility(View.GONE);
                 findViewById(R.id.voteLinearLayuot).setVisibility(View.VISIBLE);
@@ -113,7 +108,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 mockLocationProvider.cancelSetLocation();
                 break;
+            case R.id.checkerGpsUpdatesButton:
+                if(this.counterGpsUpdateService) {
+                    stopService(new Intent(this, CounterGpsUpdatesService.class));
+                    this.counterGpsUpdateService = !this.counterGpsUpdateService;
+                }
+                else {
+                    startService(new Intent(this, CounterGpsUpdatesService.class));
+                    this.counterGpsUpdateService = !this.counterGpsUpdateService;
+                }
+                break;
         }
+    }
+
+    private void StartChangeLocationService() {
+        startService(new Intent(this, SetterMockLocationService.class));
     }
 
     private void changeLocation() {
@@ -167,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkEnabled();
         console.append("\n -checked enable providers.");
     }
+
 
     private void checkEnabled() {
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -292,7 +302,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 0, 0, "Show console...");
         menu.add(1, 1, 1, "Close console");
-        menu.add(2, 2, 2, "Close");
+        menu.add(2, 2, 2, "Show/CloseUtilites");
+        menu.add(2, 3, 3, "Close");
         menu.setGroupVisible(0, false);
         return super.onCreateOptionsMenu(menu);
     }
@@ -307,6 +318,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 (findViewById(R.id.consoleLinearLayout)).setVisibility(View.GONE);
                 break;
             case 2:
+                if((findViewById(R.id.utilitesLinearLayout)).getVisibility() == View.GONE) {
+                    (findViewById(R.id.utilitesLinearLayout)).setVisibility(View.VISIBLE);
+                }
+                else  {
+                    (findViewById(R.id.utilitesLinearLayout)).setVisibility(View.GONE);
+                }
+                break;
+            case 3:
                 this.finish();
                 break;
         }

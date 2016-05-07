@@ -1,18 +1,12 @@
 package by.black_pearl.cheloc;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.location.Criteria;
-import android.location.GpsSatellite;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.os.Build;
-import android.os.SystemClock;
-import android.util.Log;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 public class MockLocationProvider {
     private String networkProvider;
