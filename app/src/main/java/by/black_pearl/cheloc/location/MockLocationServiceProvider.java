@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc;
+package by.black_pearl.cheloc.location;
 
 import android.content.Context;
 import android.location.Criteria;
@@ -17,9 +17,8 @@ public class MockLocationServiceProvider {
         try {
             this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             //gps test provider
-            this.locationManager.clearTestProviderEnabled(LocationManager.GPS_PROVIDER);
-            this.locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false, false,
-                    true, true, true, Criteria.POWER_MEDIUM, Criteria.ACCURACY_FINE);
+            this.locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, false, false, false,
+                    false, true, true, Criteria.POWER_MEDIUM, Criteria.ACCURACY_FINE);
             this.locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
             this.locationManager.setTestProviderStatus(LocationManager.GPS_PROVIDER, LocationProvider.AVAILABLE,
                     null, System.currentTimeMillis());
@@ -29,9 +28,12 @@ public class MockLocationServiceProvider {
         }
     }
 
-    public boolean setMockLocation(double lat, double lon, int alt) {
+    public boolean setMockLocation(Coordinates coordinates) {
         try {
             Location location = new Location(LocationManager.GPS_PROVIDER);
+            double lat = coordinates.getLat();
+            double lon = coordinates.getLon();
+            double alt = coordinates.getAlt();
             location.setLatitude(lat);
             location.setLongitude(lon);
             location.setAltitude(alt);
@@ -44,9 +46,8 @@ public class MockLocationServiceProvider {
             } catch (Exception ignored) {}
 
             location.setTime(System.currentTimeMillis());
-            location.setTime(System.currentTimeMillis());
             this.locationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER, location);
-            Log.i(logTag, "Location updated.");
+            Log.i(logTag, "Location updated (" + lat + ", " + lon + ", " + alt + ").");
             return true;
         }
         catch (Exception e) {
@@ -57,7 +58,8 @@ public class MockLocationServiceProvider {
 
     public boolean removeTestProviders() {
         try {
-            this.locationManager.clearTestProviderEnabled(LocationManager.GPS_PROVIDER);
+            this.locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
+            this.locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
             return true;
         }
         catch (Exception e) {

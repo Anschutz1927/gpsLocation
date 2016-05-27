@@ -6,15 +6,23 @@
     <string name="latitudePos">53.923269</string>
     <string name="longtitudePos">27.596573</string>
     <string name="altitudePos">203</string>
-    <string name="setLocationButton">Задать положение без обновлений</string>
-    <string name="setLocationServiceButton">Задать положение с обновлениями</string>
+    <string name="voteTextView">Выберите действие</string>
     <string name="deleteLocationTextView">Удалить установленную локацию, если она существует?</string>
     <string name="deleteLocationButton">Ок</string>
-    <string name="openLocationLinearLayoutButton">Задание положения</string>
     <string name="openDeleteLocationLinearLayout">Отмена положения</string>
-    <string name="voteTextView">Выберите действие</string>
     <string name="textCurGpsLocation">Gps положение: </string>
     <string name="textCurNtwrkLocation">Сетевое положение: </string>
     <string name="consoleTextView">Консоль сообщений</string>
     <string name="checkerGpsUpdatesButton">Start/StopChckGPSupd</string>
+    <string name="openLocationLinearLayoutButton">Задание положения</string>
+    <string name="setLocationButton">Задать положение без обновлений</string>
+    <string name="setLocationServiceButton">Задать положение с обновлениями</string>
+    <string name="cancelSetLocationButton">Отмена</string>
+    <string name="buttonCancelProps">Отмена</string>
+    <string name="buttonSaveProps">Сохранить</string>
+    <string name="serviceRunTimeСheckBox">Время работы сервиса:</string>
+    <string name="updateTimePropСheckBox">Время обновления позиции:</string>
+    <string name="movingPropСheckBox">Разброс местоположения:</string>
+    <string name="setSpeedСheckBox">Установить скорость движения:</string>
+    <string name="setDefaultPositionСheckBox">Установить местоположение умолчания:</string>
 </resources>

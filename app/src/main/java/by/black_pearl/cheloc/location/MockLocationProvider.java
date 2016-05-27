@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc;
+package by.black_pearl.cheloc.location;
 
 import android.content.Context;
 import android.location.Criteria;
@@ -7,6 +7,9 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 
 import java.lang.reflect.Method;
+
+import by.black_pearl.cheloc.activity.ConsoleLinearLayout;
+import by.black_pearl.cheloc.activity.MainActivity;
 
 public class MockLocationProvider {
     private String networkProvider;
@@ -22,23 +25,24 @@ public class MockLocationProvider {
 
             mocLocationManager = (LocationManager)
                     context.getSystemService(Context.LOCATION_SERVICE);
-            mainActivity.addLogToConsole("\n -mockLocationManager created.");
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "MockLocationManager created.");
             mocLocationManager.addTestProvider(networkProvider, false, false, false, false,
                     false, true, true, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
-            mainActivity.addLogToConsole("\n -added network test provider.");
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "Added network test provider.");
             mocLocationManager.addTestProvider(gpsProvider, false, false, false, false,
                     false, true, true, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
-            mainActivity.addLogToConsole("\n -added gps test provider.");
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "Added gps test provider.");
 
             mocLocationManager.setTestProviderEnabled(networkProvider, true);
             mocLocationManager.setTestProviderEnabled(gpsProvider, true);
             mocLocationManager.setTestProviderStatus(gpsProvider, LocationProvider.AVAILABLE,
                     null, System.currentTimeMillis());
-            mainActivity.addLogToConsole("\n -test providers enabled.");
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "Test providers enabled.");
 
         }
         catch (Exception e) {
-            mainActivity.addLogToConsole("\n -EXEPTION -test provider has not created: " + e.getMessage());
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "EXEPTION -test provider has not created: "
+                    + e.getMessage());
         }
 
     }
@@ -63,7 +67,8 @@ public class MockLocationProvider {
                     locationJellyBeanFixMethod.invoke(mocGpsLocation);
                 }
             } catch (Exception e) {
-                // There's no action to take here.  This is a fix for Jelly Bean and no reason to report a failure.
+                // There's no action to take here.  This is a fix for Jelly Bean and
+                // no reason to report a failure.
             }
 
             mocNetworkLocation.setTime(System.currentTimeMillis());
@@ -71,33 +76,37 @@ public class MockLocationProvider {
 
             try {
                 this.mocLocationManager.setTestProviderLocation(gpsProvider, mocGpsLocation);
-                mainActivity.addLogToConsole("\n -gps test provider setted.");
+                ConsoleLinearLayout.addLineToConsole(mainActivity, "Gps test provider setted.");
             } catch (Exception e) {
-                mainActivity.addLogToConsole("\n -EXEPTION - error set GPS test provider: " + e.getMessage());
+                ConsoleLinearLayout.addLineToConsole(mainActivity,
+                        "EXEPTION - error set GPS test provider: " + e.getMessage());
             }
 
             try {
                 this.mocLocationManager.setTestProviderLocation(networkProvider, mocNetworkLocation);
-                mainActivity.addLogToConsole("\n -network test provider setted.");
+                ConsoleLinearLayout.addLineToConsole(mainActivity, "Network test provider setted.");
             }
             catch (Exception e) {
-                mainActivity.addLogToConsole("\n -EXEPTION - error set network test provider: " + e.getMessage());
+                ConsoleLinearLayout.addLineToConsole(mainActivity,
+                        "EXEPTION - error set network test provider: " + e.getMessage());
             }
         }
         catch (Exception e) {
-            mainActivity.addLogToConsole("\n -EXEPTION - set location error: " + e.getMessage());
+            ConsoleLinearLayout.addLineToConsole(mainActivity,
+                    "EXEPTION - set location error: " + e.getMessage());
         }
     }
 
     public void cancelSetLocation() {
         try{
             this.mocLocationManager.removeTestProvider(networkProvider);
-            mainActivity.addLogToConsole("\n -network provider canceled.");
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "Network provider canceled.");
             this.mocLocationManager.removeTestProvider(gpsProvider);
-            mainActivity.addLogToConsole("\n -gps provider canceled.");
+            ConsoleLinearLayout.addLineToConsole(mainActivity, "Gps provider canceled.");
         }
         catch (Exception e) {
-            mainActivity.addLogToConsole("\n -EXEPTION - cancel test provider error: " + e.getMessage());
+            ConsoleLinearLayout.addLineToConsole(mainActivity,
+                    "EXEPTION - cancel test provider error: " + e.getMessage());
         }
     }
 
