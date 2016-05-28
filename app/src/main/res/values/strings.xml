@@ -20,9 +20,10 @@
     <string name="cancelSetLocationButton">Отмена</string>
     <string name="buttonCancelProps">Отмена</string>
     <string name="buttonSaveProps">Сохранить</string>
-    <string name="serviceRunTimeСheckBox">Время работы сервиса:</string>
-    <string name="updateTimePropСheckBox">Время обновления позиции:</string>
-    <string name="movingPropСheckBox">Разброс местоположения:</string>
-    <string name="setSpeedСheckBox">Установить скорость движения:</string>
+    <string name="serviceRunTimeСheckBox">Время работы сервиса мин:</string>
+    <string name="updateTimePropСheckBox">Время обновления позиции, сек:</string>
+    <string name="movingPropСheckBox">Разброс местоположения коэфф.:</string>
+    <string name="setSpeedСheckBox">Установить скорость движения, км/ч:</string>
     <string name="setDefaultPositionСheckBox">Установить местоположение умолчания:</string>
+    <string name="updateTimePropEditText">0.45</string>
 </resources>

@@ -66,6 +66,13 @@
                 android:allowUndo="false"
                 android:checked="false" />
 
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/serviceRunTimeNumberPicker"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal" />
+
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +80,17 @@
                 android:id="@+id/updateTimePropCheckBox"
                 android:allowUndo="false"
                 android:checked="false" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/updateTimePropEditText"
+                android:id="@+id/updateTimePropEditText"
+                android:layout_weight="1"
+                android:editable="true"
+                android:inputType="numberDecimal"
+                android:layout_gravity="center_horizontal" />
 
             <CheckBox
                 android:layout_width="match_parent"
@@ -90,6 +108,13 @@
                 android:allowUndo="false"
                 android:checked="false" />
 
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/setSpeedNumberPicker"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal" />
+
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,6 +122,85 @@
                 android:allowUndo="false"
                 android:id="@+id/setDefaultPositionCheckBox"
                 android:checked="false" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tableSetDefaultPosLayout">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/nameColumnsTableLayout">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/Latitude"
+                        android:id="@+id/columnLatitudeTextView"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/Longitude"
+                        android:id="@+id/columnLongtitudeTextView"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/Altitude"
+                        android:id="@+id/columnAltitudeTextView"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/parametersTableLayout">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/latitudePos"
+                        android:id="@+id/parameterLatitudeTextView"
+                        android:layout_weight="1"
+                        android:editable="true"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/longtitudePos"
+                        android:id="@+id/parameterLongtitudeTextView"
+                        android:layout_weight="1"
+                        android:editable="true"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/altitudePos"
+                        android:id="@+id/parameterAltitudeTextView"
+                        android:layout_weight="1"
+                        android:editable="true"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

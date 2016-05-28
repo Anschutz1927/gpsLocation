@@ -14,13 +14,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 
+import by.black_pearl.cheloc.PropertiesCheloc;
 import by.black_pearl.cheloc.R;
 import by.black_pearl.cheloc.location.ManagerOfTestLocation;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener{
 
     private LocationManager locationManager;
+    private PropertiesCheloc propertiesCheloc;
     private final String logTag = "<<<_MA_>>>";
 
     @Override
@@ -38,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonCancelProps).setOnClickListener(this);
         findViewById(R.id.buttonSaveProps).setOnClickListener(this);
 
+        ((NumberPicker) findViewById(R.id.serviceRunTimeNumberPicker)).setMinValue(0);
+        ((NumberPicker) findViewById(R.id.serviceRunTimeNumberPicker)).setMaxValue(720);
+        ((NumberPicker) findViewById(R.id.setSpeedNumberPicker)).setMinValue(0);
+        ((NumberPicker) findViewById(R.id.setSpeedNumberPicker)).setMaxValue(250);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         ConsoleLinearLayout.addLineToConsole(this, "Getted System Service to locationManager.");
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 PropertiesLinearLayout.onClickButtonCancelProps(this);
                 break;
             case R.id.buttonSaveProps:
-                PropertiesLinearLayout.onClickButtonSaveProps(this);
+                propertiesCheloc = PropertiesLinearLayout.onClickButtonSaveProps(this);
                 break;
             case R.id.cancelSetLocationButton:
                 AddLocationLinearLayout.onClickCancelSetLocationServiceButton(this);
