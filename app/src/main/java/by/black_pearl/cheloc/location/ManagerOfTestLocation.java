@@ -1,9 +1,14 @@
 package by.black_pearl.cheloc.location;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,10 +23,14 @@ public class ManagerOfTestLocation {
         String latitude = ((EditText) (mainActivity.findViewById(R.id.latitudeEditText))).getText().toString();
         String longtitude = ((EditText) (mainActivity.findViewById(R.id.longtitudeEditText))).getText().toString();
         String altitude = ((EditText) (mainActivity.findViewById(R.id.altitudeEditText))).getText().toString();
+        double speed = 3.235;
         ConsoleLinearLayout.addLineToConsole(mainActivity, "\n -added new mock provider.");
+        if(((CheckBox)mainActivity.findViewById(R.id.driveModeCheckBox)).isChecked()) {
+            speed += 56;
+        }
 
         mockLocationProvider.setLocation(Double.valueOf(latitude), Double.valueOf(longtitude),
-                Integer.valueOf(altitude));
+                Double.valueOf(altitude), speed);
     }
 
     public static void startChangeLocationService(MainActivity mainActivity) {
@@ -29,13 +38,19 @@ public class ManagerOfTestLocation {
         String latitude = ((EditText) (mainActivity.findViewById(R.id.latitudeEditText))).getText().toString();
         String longtitude = ((EditText) (mainActivity.findViewById(R.id.longtitudeEditText))).getText().toString();
         String altitude = ((EditText) (mainActivity.findViewById(R.id.altitudeEditText))).getText().toString();
+        Double speed = 1.1;
+        if(((CheckBox)mainActivity.findViewById(R.id.driveModeCheckBox)).isChecked()) {
+            speed += 15.8;
+        }
+
         intent.putExtra("lat", Double.valueOf(latitude));
         intent.putExtra("lon", Double.valueOf(longtitude));
-        intent.putExtra("alt", Integer.valueOf(altitude));
+        intent.putExtra("alt", Double.valueOf(altitude));
+        intent.putExtra("speed", speed);
+
         try {
             mainActivity.stopService(intent);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.i("<<<_MOTL_>>>", e.getMessage());
         }
         mainActivity.startService(intent);
@@ -50,13 +65,24 @@ public class ManagerOfTestLocation {
         mainActivity.stopService(new Intent(mainActivity, SetterMockLocationService.class));
     }
 
+    public static Location getLocation(MainActivity mainActivity) {
+        LocationManager locationManager = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(mainActivity, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mainActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return new Location(LocationManager.GPS_PROVIDER);
+        }
+        return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
+
     public static void showLocation(MainActivity mainActivity, Location location) {
         if(location == null){
             ConsoleLinearLayout.addLineToConsole(mainActivity, "location is null.");
             return;
         }
         String strLocation = location.getLatitude() + "; " +
-                location.getLongitude() + "; " + location.getAltitude() + ";";
+                location.getLongitude() + "; " + location.getAltitude() + "; " +
+                location.getSpeed() + ";";
         if(location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
             ((TextView)mainActivity.findViewById(R.id.curGpsLocationTextView)).setText(strLocation);
         }

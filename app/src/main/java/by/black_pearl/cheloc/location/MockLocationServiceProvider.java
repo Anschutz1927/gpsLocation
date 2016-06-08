@@ -34,9 +34,13 @@ public class MockLocationServiceProvider {
             double lat = coordinates.getLat();
             double lon = coordinates.getLon();
             double alt = coordinates.getAlt();
+            double speed = coordinates.getSpeed();
             location.setLatitude(lat);
             location.setLongitude(lon);
             location.setAltitude(alt);
+            location.setSpeed((float) speed);
+
+
 
             try {
                 Method locationJellyBeanFixMethod = Location.class.getMethod("makeComplete");
@@ -47,7 +51,7 @@ public class MockLocationServiceProvider {
 
             location.setTime(System.currentTimeMillis());
             this.locationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER, location);
-            Log.i(logTag, "Location updated (" + lat + ", " + lon + ", " + alt + ").");
+            Log.i(logTag, "Location updated (" + lat + ", " + lon + ", " + alt + ", " + speed + ").");
             return true;
         }
         catch (Exception e) {

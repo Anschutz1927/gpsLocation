@@ -5,6 +5,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 
@@ -47,7 +48,7 @@ public class MockLocationProvider {
 
     }
 
-    public void setLocation(double lat, double lon, int alt){
+    public void setLocation(double lat, double lon, double alt, double speed){
         try {
             Location mocNetworkLocation = new Location(this.networkProvider);
             Location mocGpsLocation = new Location(this.gpsProvider);
@@ -55,10 +56,12 @@ public class MockLocationProvider {
             mocNetworkLocation.setLatitude(lat + 0.001);
             mocNetworkLocation.setLongitude(lon + 0.001);
             mocNetworkLocation.setAltitude(alt + 0.001);
+            mocNetworkLocation.setSpeed((float) speed);
 
             mocGpsLocation.setLatitude(lat);
             mocGpsLocation.setLongitude(lon);
             mocGpsLocation.setAltitude(alt);
+            mocGpsLocation.setSpeed((float) speed);
 
             try {
                 Method locationJellyBeanFixMethod = Location.class.getMethod("makeComplete");
@@ -67,8 +70,7 @@ public class MockLocationProvider {
                     locationJellyBeanFixMethod.invoke(mocGpsLocation);
                 }
             } catch (Exception e) {
-                // There's no action to take here.  This is a fix for Jelly Bean and
-                // no reason to report a failure.
+                Log.i("<<<__MLP__>>>", e.getMessage());
             }
 
             mocNetworkLocation.setTime(System.currentTimeMillis());
