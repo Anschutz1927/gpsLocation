@@ -22,6 +22,6 @@ public class AddLocationLinearLayout {
     }
 
     private static void setVisibleGoneCurLayout(MainActivity mainActivity) {
-        mainActivity.findViewById(R.id.addLocationLinearLayout).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.addLocationScrollView).setVisibility(View.GONE);
     }
 }

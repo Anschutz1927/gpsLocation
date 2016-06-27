@@ -34,10 +34,12 @@ public class MockLocationServiceProvider {
             double lat = coordinates.getLat();
             double lon = coordinates.getLon();
             double alt = coordinates.getAlt();
+            double bearing = coordinates.getBearing();
             double speed = coordinates.getSpeed();
             location.setLatitude(lat);
             location.setLongitude(lon);
             location.setAltitude(alt);
+            location.setBearing((float) bearing);
             location.setSpeed((float) speed);
 
 

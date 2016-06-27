@@ -28,9 +28,13 @@ public class SetterMockLocationService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(logTag, "onStartCommand(...)");
-        Coordinates coordinates = new Coordinates(intent.getExtras().getDouble("lat", 0.0),
-                intent.getExtras().getDouble("lon", 0.0), intent.getExtras().getDouble("alt", 0),
-                intent.getExtras().getDouble("speed", 1.2));
+        Coordinates coordinates = new Coordinates(
+                intent.getExtras().getDouble("lat", 0.0),
+                intent.getExtras().getDouble("lon", 0.0),
+                intent.getExtras().getDouble("alt", 0.0),
+                intent.getExtras().getDouble("bearing", 0.0),
+                intent.getExtras().getInt("speedMode", 0),
+                intent.getExtras().getBoolean("randPos", true));
         handlerSetter = new Handler(); //for updates location
         handlerViewer = new Handler(); //for updates info messages
         runnableGPS = new RunnableGPS(this.handlerSetter, getBaseContext(), coordinates);

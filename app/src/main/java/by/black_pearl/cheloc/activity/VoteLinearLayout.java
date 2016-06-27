@@ -20,7 +20,7 @@ public class VoteLinearLayout {
                     String.valueOf(ManagerOfTestLocation.getLocation(mainActivity).getAltitude())
             );
         }
-        mainActivity.findViewById(R.id.addLocationLinearLayout).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.addLocationScrollView).setVisibility(View.VISIBLE);
     }
 
     public static void onClickDeleteOpenLocationLinearLayout(MainActivity mainActivity) {

@@ -26,5 +26,9 @@
     <string name="setSpeedСheckBox">Установить скорость движения, км/ч:</string>
     <string name="setDefaultPositionСheckBox">Установить местоположение умолчания:</string>
     <string name="updateTimePropEditText">0.45</string>
-    <string name="driveModeCheckBox">Режим перемещения</string>
+    <string name="moveModeTextView">Режим перемещения, км/ч:</string>
+    <string name="stayModeRadioButton">0</string>
+    <string name="walkModeRadioButton">0-5</string>
+    <string name="driveModeRadioButton">40-60</string>
+    <string name="randomPositionCheckBox">Небольшое смещение</string>
 </resources>
