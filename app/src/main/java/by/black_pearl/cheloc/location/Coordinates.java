@@ -27,14 +27,19 @@ public class Coordinates {
         leapCoordinates();
     }
 
+    public double getSettedLat() {
+        return settedLat;
+    }
+
+    public double getSettedLon() {
+        return settedLon;
+    }
+
+    public double getSettedAlt() {
+        return settedAlt;
+    }
+
     public double getLat() {
-        if(count == 100) {
-            this.count = 0;
-            this.leapCoordinates();
-        }
-        else {
-            this.count++;
-        }
         return this.Lat;
     }
 
@@ -47,12 +52,13 @@ public class Coordinates {
     }
 
     public double getSpeed() {
+        this.leapCoordinates();
         leapSpeed();
         return this.Speed;
     }
 
     public double getBearing() {
-        if(this.bearing == 0.0 && this.settedSpeedMode != 0) {
+        if(this.bearing == 0.0 && this.settedSpeedMode == 1) {
             Random random = new Random();
             if(random.nextBoolean()) {
                 return random.nextInt(330);
@@ -62,17 +68,21 @@ public class Coordinates {
     }
 
     private void leapCoordinates() {
-        if(this.randPos) {
+        if(this.randPos && this.count == 100) {
             this.Lat = this.settedLat + ((random.nextInt(100) - 50) / 10000000.) +
                     ((random.nextInt(1000)) / 100000000000.);
             this.Lon = this.settedLon + ((random.nextInt(100) - 50) / 10000000.) +
                     ((random.nextInt(1000)) / 100000000000.);
             this.Alt = this.settedAlt + (random.nextInt(26) - 13);
+            count = 0;
         }
         else {
             this.Lat = this.settedLat + (random.nextInt(100) - 50) / 100000000.;
             this.Lon = this.settedLon + (random.nextInt(100) - 50) / 100000000.;
             this.Alt = this.settedAlt + (random.nextInt(26) - 13);
+            if(this.randPos) {
+                count++;
+            }
         }
     }
 

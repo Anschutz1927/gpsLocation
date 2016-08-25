@@ -16,32 +16,326 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/consoleLinearLayout"
-        android:visibility="gone"
-        android:background="#000000">
+        android:id="@+id/startLayout"
+        android:visibility="visible">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/topBlockLayout"
+            android:layout_margin="10dp"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/exitButtonLayout"
+                android:layout_weight="1">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/exitButton"
+                    android:background="@android:drawable/ic_menu_close_clear_cancel"
+                    android:layout_gravity="left|center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/versionLayout"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/version"
+                    android:id="@+id/verTextView"
+                    android:layout_gravity="right|center_horizontal"
+                    android:gravity="center" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/consoleTextView"
-            android:id="@+id/consoleTextView"
-            android:textColor="#ec4b50"
-            android:layout_gravity="center_horizontal" />
+            android:text="@string/toSetPosButton"
+            android:id="@+id/toSetPosButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stopMockLocationButton"
+            android:id="@+id/stopMockLocationButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp" />
 
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/consoleScrollView"
-            android:layout_margin="5dp"
-            android:background="#000000" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/locationBlockScrollView"
+            android:background="#bfc0dc">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/console"
-                android:textColor="#9ca6e8" />
+                android:layout_margin="10dp"
+                android:id="@+id/locationBlockLayout"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/serviceStatusLayout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textServiceStatusTextView"
+                        android:id="@+id/textServiceStatusTextView"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/serviceStatusTextView"
+                        android:id="@+id/serviceStatusTextView"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/gpsLocationBlockLayout"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/gpsLocationTextView"
+                        android:id="@+id/gpsLocationTextView" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/gpsLocationLayout" >
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/latGpsLocationLayout" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Latitude"
+                                android:id="@+id/textLatGpsLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/latGpsLocationTextView" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/longGpsLocationLayout" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Longitude"
+                                android:id="@+id/textLongGpsLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/longGpsLocationTextView" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/altGpsLocationLayout" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Altitude"
+                                android:id="@+id/textAltGpsLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/altGpsLocationTextView" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/brnGpsLocationLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Bearing"
+                                android:id="@+id/textBrnGpsLocationTextViewtView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/brnGpsLocationTextView" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/spdGpsLocationLayout" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Speed"
+                                android:id="@+id/textSpdGpsLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/spdGpsLocationTextView" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/stlGpsLocationLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Satellites"
+                                android:id="@+id/textStlGpsLocationTextViewtView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/stlGpsLocationTextView" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/networkLocationBlockLayout"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/networkLocationTextView"
+                        android:id="@+id/networkLocationTextView" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/networkLocationLayout">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/latNetworkLocationLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Latitude"
+                                android:id="@+id/textLatNetworkLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/latNetworkLocationTextView" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/longNetworkLocationLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Longitude"
+                                android:id="@+id/textLongNetworkLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/longNetworkLocationTextView" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/altNetworkLocationLayout"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Altitude"
+                                android:id="@+id/textAltNetworkLocationTextView" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/noValue"
+                                android:id="@+id/altNetworkLocationTextView" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
         </ScrollView>
 
     </LinearLayout>
@@ -49,210 +343,28 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/propsScrollView"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/propertiesLinearLayout" >
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/serviceRunTimeСheckBox"
-                android:id="@+id/serviceRunTimeCheckBox"
-                android:allowUndo="false"
-                android:checked="false" />
-
-            <NumberPicker
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:id="@+id/serviceRunTimeNumberPicker"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/updateTimePropСheckBox"
-                android:id="@+id/updateTimePropCheckBox"
-                android:allowUndo="false"
-                android:checked="false" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/updateTimePropEditText"
-                android:id="@+id/updateTimePropEditText"
-                android:layout_weight="1"
-                android:editable="true"
-                android:inputType="numberDecimal"
-                android:layout_gravity="center_horizontal" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/movingPropСheckBox"
-                android:id="@+id/movingPropCheckBox"
-                android:allowUndo="false"
-                android:checked="false" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/setSpeedСheckBox"
-                android:id="@+id/setSpeedCheckBox"
-                android:allowUndo="false"
-                android:checked="false" />
-
-            <NumberPicker
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:id="@+id/setSpeedNumberPicker"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/setDefaultPositionСheckBox"
-                android:allowUndo="false"
-                android:id="@+id/setDefaultPositionCheckBox"
-                android:checked="false" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/tableSetDefaultPosLayout">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/nameColumnsTableLayout">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/Latitude"
-                        android:id="@+id/columnLatitudeTextView"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/Longitude"
-                        android:id="@+id/columnLongtitudeTextView"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/Altitude"
-                        android:id="@+id/columnAltitudeTextView"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/parametersTableLayout">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/latitudePos"
-                        android:id="@+id/parameterLatitudeTextView"
-                        android:layout_weight="1"
-                        android:editable="true"
-                        android:inputType="numberDecimal"
-                        android:textAlignment="center" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/longtitudePos"
-                        android:id="@+id/parameterLongtitudeTextView"
-                        android:layout_weight="1"
-                        android:editable="true"
-                        android:inputType="numberDecimal"
-                        android:textAlignment="center" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/altitudePos"
-                        android:id="@+id/parameterAltitudeTextView"
-                        android:layout_weight="1"
-                        android:editable="true"
-                        android:inputType="numberDecimal"
-                        android:textAlignment="center" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/buttonsPropsLinearLayout"
-                android:layout_gravity="center_horizontal">
-
-                <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/buttonCancelProps"
-                    android:id="@+id/buttonCancelProps"
-                    android:layout_gravity="center_vertical" />
-
-                <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/buttonSaveProps"
-                    android:id="@+id/buttonSaveProps"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/addLocationScrollView"
+        android:id="@+id/setPosScrollLayout"
         android:visibility="gone"
-        android:scrollIndicators="left|right">
+        android:scrollIndicators="left|right" >
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/addLocationLinearLayout"
-            android:visibility="visible">
+            android:id="@+id/setPosLayout"
+            android:visibility="visible" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Latitude"
-                android:id="@+id/latitude" />
+                android:id="@+id/textLatitudeTextView" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="7"
-                android:id="@+id/latitudeEditText"
+                android:id="@+id/latEditText"
                 android:text="@string/latitudePos"
                 android:layout_gravity="center"
                 android:textIsSelectable="false"
@@ -266,14 +378,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Longitude"
-                android:id="@+id/longitude" />
+                android:id="@+id/textLongtitudeTextView" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="7"
-                android:id="@+id/longtitudeEditText"
+                android:id="@+id/longEditText"
                 android:text="@string/longtitudePos"
                 android:layout_gravity="center"
                 android:textIsSelectable="false"
@@ -285,14 +397,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Altitude"
-                android:id="@+id/altitude" />
+                android:id="@+id/textAltitudeTextView" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="7"
-                android:id="@+id/altitudeEditText"
+                android:id="@+id/altEditText"
                 android:textIsSelectable="false"
                 android:text="@string/altitudePos"
                 android:layout_gravity="center"
@@ -300,11 +412,19 @@
                 android:maxLength="10"
                 android:textAlignment="center" />
 
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/randomPositionCheckBox"
+                android:id="@+id/randPosCheckBox"
+                android:layout_gravity="center_horizontal"
+                android:checked="true" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/moveModeTextView"
-                android:id="@+id/moveModeTextView"
+                android:id="@+id/textVoteSpeedTextView"
                 android:layout_gravity="center_horizontal" />
 
             <RadioGroup
@@ -312,20 +432,20 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/speedModeRadioGroup">
+                android:id="@+id/setSpeedModeRadioGroup" >
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/stayModeRadioButton"
-                    android:id="@+id/stayModeRadioButton"
+                    android:id="@+id/staySpeedModeRadioButton"
                     android:layout_weight="1" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/walkModeRadioButton"
-                    android:id="@+id/walkModeRadioButton"
+                    android:id="@+id/walkSpeedModeRadioButton"
                     android:layout_weight="1"
                     android:checked="true" />
 
@@ -333,7 +453,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/driveModeRadioButton"
-                    android:id="@+id/driveModeRadioButton"
+                    android:id="@+id/driveSpeedModeRadioButton"
                     android:layout_weight="1" />
             </RadioGroup>
 
@@ -341,23 +461,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/setLocationButton"
-                android:id="@+id/setLocationButton"
+                android:id="@+id/setPosWithoutUpdatesButton"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/randomPositionCheckBox"
-                android:id="@+id/randomPositionCheckBox"
-                android:layout_gravity="center_horizontal"
-                android:checked="true" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/setLocationServiceButton"
-                android:id="@+id/setLocationServiceButton"
+                android:id="@+id/setPosWithUpdatesButton"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp" />
 
@@ -369,160 +481,7 @@
                 android:id="@+id/cancelSetLocationButton"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp" />
-
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/deleteLocationLinearLayout"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/deleteLocationTextView"
-            android:id="@+id/deleteLocationTextView"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/deleteLocationButton"
-            android:id="@+id/deleteLocationButton"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:background="#c6caec" />
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/voteLinearLayuot"
-        android:visibility="visible">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/voteTextView"
-            android:id="@+id/voteTextView"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/openLocationLinearLayoutButton"
-            android:id="@+id/openLocationLinearLayoutButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/openDeleteLocationLinearLayout"
-            android:id="@+id/openDeleteLocationLinearLayout"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/currentLocationScrollView" >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/currentLocationLinearLayout">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/curGpsLocationLayout"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/textCurGpsLocation"
-                        android:id="@+id/textCurGpsLocationTextView"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:textSize="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
-                        android:id="@+id/endisGpsTextView"
-                        android:textSize="8dp"
-                        android:layout_gravity="left" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/curGpsLocationTextView"
-                        android:layout_weight="1"
-                        android:textSize="8dp"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/curNtwrkLocationLayout"
-                    android:layout_marginTop="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/textCurNtwrkLocation"
-                        android:id="@+id/textCurNtwrkLocationTextView"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:textSize="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Large Text"
-                        android:id="@+id/endisNtwrkTextView"
-                        android:textSize="8dp"
-                        android:layout_gravity="left" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/curNtwrkLocationTextView"
-                        android:layout_weight="1"
-                        android:textSize="8dp"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
-
-    </LinearLayout>
 
 </LinearLayout>

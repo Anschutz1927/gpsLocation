@@ -8,6 +8,7 @@ public class PropertiesCheloc {
     private double defaultLatitude;
     private double defaultLongtitude;
     private int defaultAltitude;
+    private boolean isMockNetworkProvider;
 
     public PropertiesCheloc() {
         this.serviceRunTime = 0;
@@ -16,6 +17,7 @@ public class PropertiesCheloc {
         this.defaultLatitude = 53.923269;
         this.defaultLongtitude = 27.596573;
         this.defaultAltitude = 203;
+        this.isMockNetworkProvider = false;
     }
 
     public void setServiceRunTime(int serviceRunTime) {
@@ -40,5 +42,9 @@ public class PropertiesCheloc {
 
     public void setDefaultAltitude(int defaultAltitude) {
         this.defaultAltitude = defaultAltitude;
+    }
+
+    public boolean isMockNetworkProvider() {
+        return isMockNetworkProvider;
     }
 }
