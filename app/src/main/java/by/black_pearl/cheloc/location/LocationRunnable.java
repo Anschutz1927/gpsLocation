@@ -26,7 +26,13 @@ public class LocationRunnable implements Runnable {
     public void setNewCoordinates(Coordinates newCoordinates, boolean withUpdates) {
         Log.i(LOG_TAG, "setNewCoordinates");
         this.coordinates = newCoordinates;
-        this.withUpdates = withUpdates;
+        if(!this.withUpdates) {
+            this.withUpdates = withUpdates;
+            handler.postDelayed(this, updateTime);
+        }
+        else {
+            this.withUpdates = withUpdates;
+        }
     }
 
     @Override
