@@ -13,7 +13,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import by.black_pearl.cheloc.R;
-import by.black_pearl.cheloc.activity.MainActivity;
+import by.black_pearl.cheloc.activity.mainActivity.MainActivity;
 
 import static java.lang.String.valueOf;
 

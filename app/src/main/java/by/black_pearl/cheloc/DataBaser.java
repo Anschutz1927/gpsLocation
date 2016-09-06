@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Worker with DB.
@@ -31,12 +32,26 @@ public class DataBaser extends SQLiteOpenHelper {
 
     private void insertFirstLocation(SQLiteDatabase db) {
         Log.i(LOG_TAG, "insertFirstLocation");
-        ContentValues cv = new ContentValues();
-        cv.put(ADDRESS_COLUMN, "Энергосбыт");
-        cv.put(LATITUDE_COLUMN, "53.923269");
-        cv.put(LONGTITUDE_COLUMN, "27.596573");
-        cv.put(ALTITUDE_COLUMN, "203");
-        db.insert(TABLE_NAME, null, cv);
+        inserNewAddress("Энергосбыт", "53.923269","27.596573", "203");
+    }
+
+    public void inserNewAddress(String address, String latitude,
+                                String longtitude, String altitude) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Log.i(LOG_TAG, "inserNewAddress");
+            ContentValues cv = new ContentValues();
+            cv.put(ADDRESS_COLUMN, address);
+            cv.put(LATITUDE_COLUMN, latitude);
+            cv.put(LONGTITUDE_COLUMN, longtitude);
+            cv.put(ALTITUDE_COLUMN, altitude);
+            db.insert(TABLE_NAME, null, cv);
+            db.close();
+            Toast.makeText(context, "Address has saved.", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
+            Toast.makeText(context, "Not saved. Unknown error.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void printAllRecordsDbToLog() {
@@ -68,6 +83,7 @@ public class DataBaser extends SQLiteOpenHelper {
             Log.i(LOG_TAG, "database is null ;(");
         }
         cursor.close();
+        db.close();
     }
 
     @Override

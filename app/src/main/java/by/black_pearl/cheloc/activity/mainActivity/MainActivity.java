@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc.activity;
+package by.black_pearl.cheloc.activity.mainActivity;
 
 
 import android.content.ComponentName;
@@ -11,8 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import by.black_pearl.cheloc.DataBaser;
 import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
 import by.black_pearl.cheloc.location.LocationListener;
 import by.black_pearl.cheloc.location.service.ChelocService;
 import by.black_pearl.cheloc.location.service.ServiceBinder;
@@ -22,12 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private ChelocService chelocService;
     private boolean bound;
     private LocationListener locationListener;
-    private DataBaser dataBaser;
 
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
-        Log.i(LOG_TAG, "ver57");
+        Log.i(LOG_TAG, "ver66");
     }
 
     @Override
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.locationListener = new LocationListener(this);
-        this.dataBaser = new DataBaser(this);
         setOnClickListeners();
         setProperties();
     }
@@ -116,17 +114,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProperties() {
-
+        findViewById(R.id.startLayout).setVisibility(View.VISIBLE);
+        findViewById(R.id.setPosScrollLayout).setVisibility(View.GONE);
     }
 
     private void setOnClickListeners() {
         ButtonClickListener listener = new ButtonClickListener(MainActivity.this);
         findViewById(R.id.exitButton).setOnClickListener(listener);
         findViewById(R.id.toSetPosButton).setOnClickListener(listener);
+        findViewById(R.id.savePosButon).setOnClickListener(listener);
+        findViewById(R.id.loadPosButton).setOnClickListener(listener);
         findViewById(R.id.setPosWithoutUpdatesButton).setOnClickListener(listener);
         findViewById(R.id.setPosWithUpdatesButton).setOnClickListener(listener);
         findViewById(R.id.cancelSetLocationButton).setOnClickListener(listener);
         findViewById(R.id.stopMockLocationButton).setOnClickListener(listener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ButtonClickListener.setSetPosScrollLayout(this,
+                data.getExtras().getString(ScrollActivity.EXTRA_LATITUDE),
+                data.getExtras().getString(ScrollActivity.EXTRA_LONGTITUDE),
+                data.getExtras().getString(ScrollActivity.EXTRA_ALTITUDE));
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {

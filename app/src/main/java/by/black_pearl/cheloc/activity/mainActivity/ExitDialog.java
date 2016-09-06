@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc.activity;
+package by.black_pearl.cheloc.activity.mainActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

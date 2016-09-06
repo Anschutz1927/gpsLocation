@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc.activity;
+package by.black_pearl.cheloc.activity.mainActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
 import by.black_pearl.cheloc.location.Coordinates;
 import by.black_pearl.cheloc.location.service.ChelocService;
 
@@ -56,7 +57,7 @@ public class ButtonClickListener implements View.OnClickListener{
     }
 
     private boolean hasMistakes() {
-        Log.i(LOG_TAG, ((EditText) mainActivity.findViewById(R.id.latEditText)).getText().toString());
+        Log.i(LOG_TAG, "hasMistakes");
         return ((EditText) mainActivity.findViewById(R.id.latEditText)).getText().toString().equalsIgnoreCase("") ||
                 ((EditText) mainActivity.findViewById(R.id.longEditText)).getText().toString().equalsIgnoreCase("") ||
                 ((EditText) mainActivity.findViewById(R.id.altEditText)).getText().toString().equals("");
@@ -65,17 +66,20 @@ public class ButtonClickListener implements View.OnClickListener{
     private void setLocationToSetPosScrollLayout() {
         if(((TextView)mainActivity.findViewById(R.id.latGpsLocationTextView)).getText()
                 != mainActivity.getString(R.string.noValue)) {
-            ((EditText)mainActivity.findViewById(R.id.latEditText)).setText(
-                    ((TextView) mainActivity.findViewById(R.id.latGpsLocationTextView)).getText()
-            );
-            ((EditText)mainActivity.findViewById(R.id.longEditText)).setText(
-                    ((TextView) mainActivity.findViewById(R.id.longGpsLocationTextView)).getText()
-            );
-            ((EditText)mainActivity.findViewById(R.id.altEditText)).setText(
-                    ((TextView) mainActivity.findViewById(R.id.altGpsLocationTextView)).getText()
-            );
-
+            setSetPosScrollLayout(mainActivity,
+                    ((TextView) mainActivity.findViewById(R.id.latGpsLocationTextView)).getText(),
+                    ((TextView) mainActivity.findViewById(R.id.longGpsLocationTextView)).getText(),
+                    ((TextView) mainActivity.findViewById(R.id.altGpsLocationTextView)).getText());
         }
+    }
+
+    public static void setSetPosScrollLayout(MainActivity mainActivity,
+                                             CharSequence latitude,
+                                             CharSequence longtitude,
+                                             CharSequence altitude) {
+        ((EditText)mainActivity.findViewById(R.id.latEditText)).setText(latitude);
+        ((EditText)mainActivity.findViewById(R.id.longEditText)).setText(longtitude);
+        ((EditText)mainActivity.findViewById(R.id.altEditText)).setText(altitude);
     }
 
     private void stopMockLocation() {
@@ -130,6 +134,33 @@ public class ButtonClickListener implements View.OnClickListener{
             case R.id.stopMockLocationButton:
                 stopMockLocation();
                 mainActivity.setServiceStatusOnTextView();
+                break;
+            case R.id.savePosButon:
+                if(hasMistakes()) {
+                    Toast.makeText(mainActivity, "No data for save... Check editboxes.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Coordinates coordinatesForExtra = getCoordinates();
+                try {
+                    Log.i(LOG_TAG, "coordinatesForExtra:" +
+                            "\n lat " + coordinatesForExtra.getSettedLat() +
+                            "\n lon " + coordinatesForExtra.getSettedLon() +
+                            "\n alt " + coordinatesForExtra.getSettedAlt());
+                }
+                catch (Exception e) {
+                    Log.i(LOG_TAG, e.getMessage());
+                }
+                Intent scrollIntent = new Intent(mainActivity, ScrollActivity.class);
+                scrollIntent.putExtra(ScrollActivity.ActivityMode, ScrollActivity.ACTIVITY_MODE_SAVE)
+                        .putExtra(ScrollActivity.EXTRA_LATITUDE, coordinatesForExtra.getSettedLat())
+                        .putExtra(ScrollActivity.EXTRA_LONGTITUDE, coordinatesForExtra.getSettedLon())
+                        .putExtra(ScrollActivity.EXTRA_ALTITUDE, coordinatesForExtra.getSettedAlt());
+                mainActivity.startActivity(scrollIntent);
+                break;
+            case R.id.loadPosButton:
+                mainActivity.startActivityForResult(new Intent(mainActivity, ScrollActivity.class)
+                        .putExtra(ScrollActivity.ActivityMode, ScrollActivity.ACTIVITY_MODE_LOAD),
+                        ScrollActivity.ACTIVITY_MODE_LOAD);
                 break;
             case R.id.setPosWithoutUpdatesButton:
                 if(hasMistakes()) {

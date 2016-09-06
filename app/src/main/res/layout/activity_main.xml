@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activity.MainActivity"
+    tools:context=".activity.mainActivity.MainActivity"
     android:orientation="vertical"
     android:id="@+id/mainLinearLyaout"
     android:background="#b3b5f9">
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/startLayout"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -344,7 +344,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/setPosScrollLayout"
-        android:visibility="gone"
+        android:visibility="visible"
         android:scrollIndicators="left|right" >
 
         <LinearLayout
@@ -353,6 +353,28 @@
             android:layout_height="wrap_content"
             android:id="@+id/setPosLayout"
             android:visibility="visible" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/saveLoadLayout"
+                android:layout_gravity="right">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/savePosButon"
+                    android:background="@android:drawable/ic_menu_save" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loadPosButton"
+                    android:background="@android:drawable/ic_menu_edit" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
