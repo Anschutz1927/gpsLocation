@@ -45,4 +45,7 @@
     <string name="noValue"> Нет данных.</string>
     <string name="serviceRun">"Сервис запущен. "</string>
     <string name="serviceStop">"Сервис не запущен. "</string>
+    <string name="loadPosButton">download</string>
+    <string name="savePosButton">upload</string>
+    <string name="address">Адрес:</string>
 </resources>
