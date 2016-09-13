@@ -7,4 +7,6 @@ public interface TextInterface {
     void setText(CharSequence text);
 
     CharSequence getText();
+
+    public void setGravity(int gravity);
 }

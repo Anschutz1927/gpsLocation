@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc;
+﻿package by.black_pearl.cheloc;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,14 +30,6 @@ public class DataBaser extends SQLiteOpenHelper {
         Log.i(LOG_TAG, "DataBaser");
     }
 
-<<<<<<< HEAD
-    private void insertFirstLocation(SQLiteDatabase db) {
-        Log.i(LOG_TAG, "insertFirstLocation");
-        inserNewAddress("Энергосбыт", "53.923269","27.596573", "203");
-    }
-
-=======
->>>>>>> da794f8... 2 (interface work with bd)
     public void inserNewAddress(String address, String latitude,
                                 String longtitude, String altitude) {
         try {
@@ -49,7 +41,6 @@ public class DataBaser extends SQLiteOpenHelper {
             cv.put(LONGTITUDE_COLUMN, longtitude);
             cv.put(ALTITUDE_COLUMN, altitude);
             db.insert(TABLE_NAME, null, cv);
-            db.close();
             Toast.makeText(context, "Address has saved.", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {
@@ -86,7 +77,6 @@ public class DataBaser extends SQLiteOpenHelper {
             Log.i(LOG_TAG, "database is null ;(");
         }
         cursor.close();
-        db.close();
     }
 
     @Override
@@ -105,7 +95,6 @@ public class DataBaser extends SQLiteOpenHelper {
             cv.put(LONGTITUDE_COLUMN, "27.596573");
             cv.put(ALTITUDE_COLUMN, "203");
             db.insert(TABLE_NAME, null, cv);
-            db.close();
             Toast.makeText(context, "Была создана новая БД приложения.", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {

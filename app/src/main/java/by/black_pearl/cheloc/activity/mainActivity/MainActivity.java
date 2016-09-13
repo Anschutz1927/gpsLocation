@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
-        Log.i(LOG_TAG, "ver66");
+        Log.i(LOG_TAG, "ver71");
     }
 
     @Override
@@ -133,10 +133,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ButtonClickListener.setSetPosScrollLayout(this,
-                data.getExtras().getString(ScrollActivity.EXTRA_LATITUDE),
-                data.getExtras().getString(ScrollActivity.EXTRA_LONGTITUDE),
-                data.getExtras().getString(ScrollActivity.EXTRA_ALTITUDE));
+        if(resultCode == RESULT_OK) {
+            ButtonClickListener.setSetPosScrollLayout(this,
+                    data.getExtras().getString(ScrollActivity.EXTRA_LATITUDE),
+                    data.getExtras().getString(ScrollActivity.EXTRA_LONGTITUDE),
+                    data.getExtras().getString(ScrollActivity.EXTRA_ALTITUDE));
+        }
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {

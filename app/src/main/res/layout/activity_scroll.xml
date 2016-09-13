@@ -9,32 +9,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activity.scrollActivity.ScrollActivity"
     android:orientation="vertical"
-    android:id="@+id/mainLayout">
+    android:id="@+id/mainLayout"
+    android:background="@color/scrollMainLayout">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/titleActivityLayout">
+        android:id="@+id/titleActivityLayout"
+        android:background="@color/scrollTitleActivity">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/textTitleActivityTextView"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="15dp" />
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/bodyScrollActivityScrollView"
-        android:layout_gravity="left">
+        android:background="@color/scrollTitleActivity"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bodyScrollActivityLayout"></LinearLayout>
+            android:id="@+id/bodyScrollActivityLayout">
+
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -87,7 +87,7 @@ public class Coordinates {
     }
 
     private void leapSpeed() {
-        if(this.count % 100 == 0) {
+        if(this.count % 50 == 0 || this.count == 0 || this.count == 10) {
             if(this.settedSpeedMode == 0) {
                 this.Speed = 0.0;
             }

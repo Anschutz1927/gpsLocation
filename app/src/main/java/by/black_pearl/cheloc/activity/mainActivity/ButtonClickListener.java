@@ -14,6 +14,7 @@ import android.widget.Toast;
 import by.black_pearl.cheloc.R;
 import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
 import by.black_pearl.cheloc.location.Coordinates;
+import by.black_pearl.cheloc.location.CoordinatesForExtra;
 import by.black_pearl.cheloc.location.service.ChelocService;
 
 public class ButtonClickListener implements View.OnClickListener{
@@ -53,6 +54,15 @@ public class ButtonClickListener implements View.OnClickListener{
                 0.0f,
                 getSpeedMode(),
                 ((CheckBox) mainActivity.findViewById(R.id.randPosCheckBox)).isChecked()
+        );
+    }
+
+    private CoordinatesForExtra getCoordinatesForExtra() {
+        Log.i(LOG_TAG, "getCoordinates:CoordinatesForExtra");
+        return new CoordinatesForExtra(
+                ((EditText) (mainActivity.findViewById(R.id.latEditText))).getText().toString(),
+                ((EditText) (mainActivity.findViewById(R.id.longEditText))).getText().toString(),
+                ((EditText) (mainActivity.findViewById(R.id.altEditText))).getText().toString()
         );
     }
 
@@ -140,21 +150,12 @@ public class ButtonClickListener implements View.OnClickListener{
                     Toast.makeText(mainActivity, "No data for save... Check editboxes.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Coordinates coordinatesForExtra = getCoordinates();
-                try {
-                    Log.i(LOG_TAG, "coordinatesForExtra:" +
-                            "\n lat " + coordinatesForExtra.getSettedLat() +
-                            "\n lon " + coordinatesForExtra.getSettedLon() +
-                            "\n alt " + coordinatesForExtra.getSettedAlt());
-                }
-                catch (Exception e) {
-                    Log.i(LOG_TAG, e.getMessage());
-                }
                 Intent scrollIntent = new Intent(mainActivity, ScrollActivity.class);
+                CoordinatesForExtra forExtra = getCoordinatesForExtra();
                 scrollIntent.putExtra(ScrollActivity.ActivityMode, ScrollActivity.ACTIVITY_MODE_SAVE)
-                        .putExtra(ScrollActivity.EXTRA_LATITUDE, coordinatesForExtra.getSettedLat())
-                        .putExtra(ScrollActivity.EXTRA_LONGTITUDE, coordinatesForExtra.getSettedLon())
-                        .putExtra(ScrollActivity.EXTRA_ALTITUDE, coordinatesForExtra.getSettedAlt());
+                        .putExtra(ScrollActivity.EXTRA_LATITUDE, forExtra.getLatitude())
+                        .putExtra(ScrollActivity.EXTRA_LONGTITUDE, forExtra.getLongtitude())
+                        .putExtra(ScrollActivity.EXTRA_ALTITUDE, forExtra.getAltitude());
                 mainActivity.startActivity(scrollIntent);
                 break;
             case R.id.loadPosButton:
