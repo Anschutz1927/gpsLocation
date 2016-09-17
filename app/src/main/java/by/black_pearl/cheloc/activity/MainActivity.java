@@ -4,6 +4,7 @@ package by.black_pearl.cheloc.activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,11 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
+<<<<<<< HEAD:app/src/main/java/by/black_pearl/cheloc/activity/MainActivity.java
         Log.i(LOG_TAG, "ver55");
+=======
+        Log.i(LOG_TAG, "ver87");
+>>>>>>> c40291a... 4 (location listener fix; delete row bd by long item click; bd is completly):app/src/main/java/by/black_pearl/cheloc/activity/mainActivity/MainActivity.java
     }
 
     @Override
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.i(LOG_TAG, "onBackPressed");
         if ((findViewById(R.id.startLayout)).getVisibility() == View.VISIBLE) {
-            ExitDialog.showExitDialog(MainActivity.this);
+            Dialogs.showExitDialog(MainActivity.this);
         } else {
             (findViewById(R.id.startLayout)).setVisibility(View.VISIBLE);
         }
@@ -113,7 +118,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setProperties() {
+<<<<<<< HEAD:app/src/main/java/by/black_pearl/cheloc/activity/MainActivity.java
 
+=======
+        try {
+            ((TextView)findViewById(R.id.verTextView))
+                    .setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        findViewById(R.id.startLayout).setVisibility(View.VISIBLE);
+        findViewById(R.id.setPosScrollLayout).setVisibility(View.GONE);
+>>>>>>> c40291a... 4 (location listener fix; delete row bd by long item click; bd is completly):app/src/main/java/by/black_pearl/cheloc/activity/mainActivity/MainActivity.java
     }
 
     private void setOnClickListeners() {

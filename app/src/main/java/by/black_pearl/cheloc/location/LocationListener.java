@@ -114,8 +114,7 @@ public class LocationListener implements android.location.LocationListener {
             if (checkPermission(mainActivity)) {
                 getLastKnownLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
                 //getLastKnownLocation(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
-                LocationListener locationListener = new LocationListener(mainActivity);
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
                 //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3900, 0, locationListener);
             }
         }
@@ -129,8 +128,7 @@ public class LocationListener implements android.location.LocationListener {
             LocationManager locationManager =
                     (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
             if (checkPermission(mainActivity)) {
-                LocationListener locationListener = new LocationListener(mainActivity);
-                locationManager.removeUpdates(locationListener);
+                locationManager.removeUpdates(this);
             }
         }
         catch (Exception e) {
@@ -147,7 +145,7 @@ public class LocationListener implements android.location.LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        showLocation(location, Color.rgb(191, 210, 220));
+        showLocation(location, Color.rgb(190, 210, 220));
     }
 
     @Override

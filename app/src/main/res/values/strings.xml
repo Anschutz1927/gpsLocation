@@ -6,9 +6,9 @@
     <string name="Bearing">"Угол: "</string>
     <string name="Speed">"Скорость: "</string>
     <string name="Satellites">"Спутников: "</string>
-    <string name="latitudePos">53.923269</string>
-    <string name="longtitudePos">27.596573</string>
-    <string name="altitudePos">203</string>
+    <!--<string name="latitudePos">53.923269</string>-->
+    <!--<string name="longtitudePos">27.596573</string>-->
+    <!--<string name="altitudePos">203</string>-->
     <!--<string name="voteTextView">Выберите действие</string>-->
     <!--<string name="deleteLocationTextView">Удалить установленную локацию, если она существует?</string>-->
     <!--<string name="deleteLocationButton">Ок</string>-->
@@ -37,7 +37,6 @@
     <string name="serviceStatusTextView">ХЗ вообще, что-то пошло не так ;(</string>
     <string name="not_chenged">not chenged!</string>
     <string name="stopMockLocationButton">Удалить установку положения</string>
-    <string name="version">ver.2.0.1</string>
     <string name="toSetPosButton">Установка положения...</string>
     <string name="textServiceStatusTextView">"Статус сервиса: "</string>
     <string name="networkLocationTextView">Положение сети:</string>
