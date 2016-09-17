@@ -8,5 +8,9 @@ public interface TextInterface {
 
     CharSequence getText();
 
-    public void setGravity(int gravity);
+    void setGravity(int gravity);
+
+    void setEms (int ems);
+
+    void setInputType (int type);
 }

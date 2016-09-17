@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import by.black_pearl.cheloc.DataBaser;
+import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.activity.mainActivity.Dialogs;
 
 /**
  * There is part of scroll activity. This block provide views to load from custom list data from DB.
@@ -28,20 +32,46 @@ public class LoadActivity extends LinearLayout implements View.OnClickListener {
         this.scrollActivity = scrollActivity;
         this.mContext = scrollActivity.getContext();
         this.setOrientation(VERTICAL);
-        loadFromDB();
+        loadFromDB(DataBaser.TABLE_METRO);
+        loadFromDB(DataBaser.TABLE_NAME);
+    }
+
+    public void reloadLoadActivity() {
+        this.removeAllViews();
+        loadFromDB(DataBaser.TABLE_METRO);
+        loadFromDB(DataBaser.TABLE_NAME);
     }
 
     /**
      * Private method it load data from database.
+     * @param tableName
      */
-    private void loadFromDB() {
+    private void loadFromDB(String tableName) {
         Log.i(LOG_TAG, "loadFromDB");
         dataBaser = new DataBaser(mContext);
         SQLiteDatabase db = dataBaser.getReadableDatabase();
-        Cursor cursor = db.query(DataBaser.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(tableName, null, null, null, null, null, null);
         if(cursor.moveToFirst()) {
             do {
                 AddressBlock addressBlock = new AddressBlock(mContext, false);
+                if(tableName == DataBaser.TABLE_METRO) {
+                    addressBlock.setBackgroundColor(ContextCompat.getColor(this.getContext(),
+                            R.color.metroBlock));
+                }
+                else {
+                    addressBlock.setupLongClick(
+                            cursor.getInt(cursor.getColumnIndex(DataBaser.ID_COLUMN)), this);
+                    Button button = new Button(mContext);
+                    button.setText("del");
+                    final int id = cursor.getInt(cursor.getColumnIndex(DataBaser.ID_COLUMN));
+                    final LoadActivity l = this;
+                    button.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Dialogs.showDeleteAddressDialog(mContext, id, l);
+                        }
+                    });
+                }
                 addressBlock.setTextAddressTextView(
                         cursor.getString(cursor.getColumnIndex(DataBaser.ADDRESS_COLUMN))
                 );

@@ -16,6 +16,7 @@ public class DataBaser extends SQLiteOpenHelper {
     private final static String NAME_DB = "Chelocbase";
     private final static String LOG_TAG = "DataBaser";
     public final static String TABLE_NAME = "myLocations";
+    public final static String TABLE_METRO = "metroLocations";
     private final static int VERSION_DB = 1;
     public final static String ID_COLUMN = "id";
     public final static String ADDRESS_COLUMN = "address";
@@ -30,51 +31,57 @@ public class DataBaser extends SQLiteOpenHelper {
         Log.i(LOG_TAG, "DataBaser");
     }
 
-    public void inserNewAddress(String address, String latitude,
-                                String longtitude, String altitude) {
+    public void insertNewAddress(String address, String latitude, String longtitude, String altitude) {
+        insertNewAddress(this.getWritableDatabase(), TABLE_NAME, address, latitude, longtitude, altitude);
+        Toast.makeText(context, "Address has saved.", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean insertNewAddress(SQLiteDatabase db, String table, String address, String latitude,
+                                  String longtitude, String altitude) {
         try {
-            SQLiteDatabase db = this.getWritableDatabase();
-            Log.i(LOG_TAG, "inserNewAddress");
+            Log.i(LOG_TAG, "insertNewAddress");
             ContentValues cv = new ContentValues();
             cv.put(ADDRESS_COLUMN, address);
             cv.put(LATITUDE_COLUMN, latitude);
             cv.put(LONGTITUDE_COLUMN, longtitude);
             cv.put(ALTITUDE_COLUMN, altitude);
-            db.insert(TABLE_NAME, null, cv);
-            Toast.makeText(context, "Address has saved.", Toast.LENGTH_SHORT).show();
+            db.insert(table, null, cv);
+            return true;
         }
         catch (Exception e) {
             Toast.makeText(context, "Not saved. Unknown error.", Toast.LENGTH_SHORT).show();
+            return false;
         }
+    }
+
+    public void deleteAddress(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, ID_COLUMN + "=" + id, null);
     }
 
     private void printAllRecordsDbToLog() {
         Log.i(LOG_TAG, "printAllRecordsDbToLog");
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(DataBaser.TABLE_NAME, null, null, null, null, null, null);
+        cursorPrinter(db.query(TABLE_METRO, null, null, null, null, null, null), TABLE_METRO);
+        cursorPrinter(db.query(TABLE_NAME, null, null, null, null, null, null), TABLE_NAME);
+    }
+
+    private void cursorPrinter(Cursor cursor, String table) {
+        Log.i(LOG_TAG, "cursorPrinter");
+        Log.i(LOG_TAG, "\nReading of db " + table + "...");
         if(cursor.moveToFirst()) {
-            int idIndex = cursor.getColumnIndex(DataBaser.ID_COLUMN);
-            int addressIndex = cursor.getColumnIndex(DataBaser.ADDRESS_COLUMN);
-            int latitudeIndex = cursor.getColumnIndex(DataBaser.LATITUDE_COLUMN);
-            int longtitudeIndex = cursor.getColumnIndex(DataBaser.LONGTITUDE_COLUMN);
-            int altitudeIndex = cursor.getColumnIndex(DataBaser.ALTITUDE_COLUMN);
             do {
-                Log.i(LOG_TAG, "Reading of db...\n" +
-                        "\nid = " + cursor.getInt(idIndex) +
-                        " " +String.valueOf(idIndex) +
-                        "\naddress = " + cursor.getString(addressIndex) +
-                        " " + String.valueOf(addressIndex) +
-                        "\nlatitude = " + cursor.getString(latitudeIndex) +
-                        " " + String.valueOf(latitudeIndex) +
-                        "\nlongtitude = " + cursor.getString(longtitudeIndex) +
-                        " " + String.valueOf(longtitudeIndex) +
-                        "\naltitude = " + cursor.getString(altitudeIndex) +
-                        " " + String.valueOf(altitudeIndex));
+                Log.i(LOG_TAG,
+                        "\nid = " + cursor.getInt(cursor.getColumnIndex(DataBaser.ID_COLUMN)) +
+                        "\naddress = " + cursor.getString(cursor.getColumnIndex(DataBaser.ADDRESS_COLUMN)) +
+                        "\nlatitude = " + cursor.getString(cursor.getColumnIndex(DataBaser.LATITUDE_COLUMN)) +
+                        "\nlongtitude = " + cursor.getString(cursor.getColumnIndex(DataBaser.LONGTITUDE_COLUMN)) +
+                        "\naltitude = " + cursor.getString(cursor.getColumnIndex(DataBaser.ALTITUDE_COLUMN)));
             }
             while(cursor.moveToNext());
         }
         else {
-            Log.i(LOG_TAG, "database is null ;(");
+            Log.i(LOG_TAG, "Database is null ;(");
         }
         cursor.close();
     }
@@ -87,18 +94,26 @@ public class DataBaser extends SQLiteOpenHelper {
                 LATITUDE_COLUMN + " text, " +
                 LONGTITUDE_COLUMN + " text, " +
                 ALTITUDE_COLUMN + " text);");
-        try {
-            Log.i(LOG_TAG, "inserNewAddress");
-            ContentValues cv = new ContentValues();
-            cv.put(ADDRESS_COLUMN, "Энергосбыт");
-            cv.put(LATITUDE_COLUMN, "53.923269");
-            cv.put(LONGTITUDE_COLUMN, "27.596573");
-            cv.put(ALTITUDE_COLUMN, "203");
-            db.insert(TABLE_NAME, null, cv);
-            Toast.makeText(context, "Была создана новая БД приложения.", Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e) {
-            Toast.makeText(context, "Создать БД не удалось!", Toast.LENGTH_SHORT).show();
+        db.execSQL("create table " + TABLE_METRO + " (" +
+                ID_COLUMN +" integer primary key autoincrement, " +
+                ADDRESS_COLUMN + " text, " +
+                LATITUDE_COLUMN + " text, " +
+                LONGTITUDE_COLUMN + " text, " +
+                ALTITUDE_COLUMN + " text);");
+        Toast.makeText(context, "Была создана новая БД приложения.", Toast.LENGTH_SHORT).show();
+        Log.i(LOG_TAG, "insertNewAddress");
+        insertNewAddress(db, TABLE_NAME, "Энергосбыт", "53.923269", "27.596573", "203");
+        String[] metroAddressArray = context.getResources().getStringArray(R.array.metroAddresses);
+        String[] metroLatitudeArray = context.getResources().getStringArray(R.array.metroLatitude);
+        String[] metroLongtitude = context.getResources().getStringArray(R.array.metroLongtitude);
+        String metroAltitude = context.getResources().getString(R.string.metroAltitude);
+        int length = metroAddressArray.length;
+        for(int i = 0; i < length; i++) {
+            if(!insertNewAddress(db, TABLE_METRO, metroAddressArray[i], metroLatitudeArray[i],
+                    metroLongtitude[i], metroAltitude)) {
+                Toast.makeText(context, "Создать корректно БД не удалось!", Toast.LENGTH_SHORT).show();
+                break;
+            }
         }
     }
 

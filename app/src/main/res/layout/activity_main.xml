@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/startLayout"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -54,7 +54,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/version"
                     android:id="@+id/verTextView"
                     android:layout_gravity="right|center_horizontal"
                     android:gravity="center" />
@@ -387,14 +386,14 @@
                 android:layout_height="wrap_content"
                 android:ems="7"
                 android:id="@+id/latEditText"
-                android:text="@string/latitudePos"
                 android:layout_gravity="center"
                 android:textIsSelectable="false"
                 android:singleLine="true"
                 android:inputType="numberDecimal"
                 android:editable="false"
                 android:maxLength="10"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:hint="Широта (52.ххх)" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -408,12 +407,12 @@
                 android:inputType="numberDecimal"
                 android:ems="7"
                 android:id="@+id/longEditText"
-                android:text="@string/longtitudePos"
                 android:layout_gravity="center"
                 android:textIsSelectable="false"
                 android:singleLine="true"
                 android:maxLength="10"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:hint="Долгота (27.ххх)" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -428,11 +427,12 @@
                 android:ems="7"
                 android:id="@+id/altEditText"
                 android:textIsSelectable="false"
-                android:text="@string/altitudePos"
                 android:layout_gravity="center"
                 android:singleLine="true"
                 android:maxLength="10"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:elegantTextHeight="false"
+                android:hint="Введите высоту" />
 
             <CheckBox
                 android:layout_width="wrap_content"
