@@ -1,4 +1,4 @@
-﻿package by.black_pearl.cheloc;
+package by.black_pearl.cheloc;
 
 import android.content.ContentValues;
 import android.content.Context;

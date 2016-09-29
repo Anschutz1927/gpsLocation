@@ -31,7 +31,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.scrollActivity.ScrollActivity"></activity>
+        <activity android:name=".activity.scrollActivity.ScrollActivity" />
+        <activity android:name=".activity.bluetoothActivity.BluetoothActivity"></activity>
     </application>
 
 </manifest>

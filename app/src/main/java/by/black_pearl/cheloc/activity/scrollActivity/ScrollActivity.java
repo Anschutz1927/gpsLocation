@@ -2,12 +2,15 @@ package by.black_pearl.cheloc.activity.scrollActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.activity.bluetoothActivity.BluetoothActivity;
 
 /**
  * This main class of scroll activity.
@@ -54,6 +57,14 @@ public class ScrollActivity extends Activity {
                 Log.i(LOG_TAG, "default");
                 break;
         }
+        //bt button
+        findViewById(R.id.bluetoothButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ScrollActivity.this, BluetoothActivity.class));
+            }
+        });
+        //bt button
     }
     protected Context getContext() {
         Log.i(LOG_TAG, "getContext");
