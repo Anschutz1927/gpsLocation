@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
-        Log.i(LOG_TAG, "ver17");
+        Log.i(LOG_TAG, "ver20");
     }
 
     @Override

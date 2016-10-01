@@ -43,9 +43,12 @@ public class BluetoothActivity extends Activity {
         ((ListView)findViewById(R.id.btListView)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String address = ((TextView)view).getText().toString();
-                Log.i(LOG_TAG, "textFromClickItem = ");
-                Log.i(LOG_TAG, "\n" + address + "\n");
+                String address = ((TextView)view.findViewById(R.id.addressListLayoutTextView)).getText().toString();
+                Log.i(LOG_TAG, "textFromClickedItem = ");
+                Log.i(LOG_TAG, "\n" +
+                        ((TextView)view.findViewById(R.id.nameListLayoutTextView)).getText().toString() +
+                        ", " + address + "\n");
+                bluetoothManager.connectToDevice(address);
             }
         });
     }
