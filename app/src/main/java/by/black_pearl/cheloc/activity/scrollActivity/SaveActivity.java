@@ -54,7 +54,7 @@ public class SaveActivity extends LinearLayout implements View.OnClickListener {
         catch (Exception e) {
             Log.i(LOG_TAG, e.getMessage());
         }
-        addressBlock = new AddressBlock(mContext, true);
+        addressBlock = new AddressBlock(mContext, AddressBlock.EDITABLE_ON);
         addressBlock.setTextAddressTextView("");
         addressBlock.setTextLatitudeTextView(scrollActivity.getIntent()
                 .getStringExtra(ScrollActivity.EXTRA_LATITUDE));
@@ -69,9 +69,9 @@ public class SaveActivity extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         DataBaser dataBaser = new DataBaser(mContext);
         dataBaser.insertNewAddress(
-                addressBlock.getAddressTextView(),
-                addressBlock.getLatitudeTextView(),
-                addressBlock.getLongtitudeTextView(),
+                addressBlock.getAddress(),
+                addressBlock.getLatitude(),
+                addressBlock.getLongtitude(),
                 addressBlock.getAltitude()
         );
         scrollActivity.finish();

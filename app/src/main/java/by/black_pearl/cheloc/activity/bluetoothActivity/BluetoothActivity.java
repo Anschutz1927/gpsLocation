@@ -7,14 +7,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.activity.BtActivity;
 import by.black_pearl.cheloc.bluetooth.BluetoothManager;
 
 public class BluetoothActivity extends Activity {
-    private final String LOG_TAG ="BluetoothActivity";
+    private final static String LOG_TAG = "BluetoothActivity";
+    public final static String BLUETOOTH_EXTRA_STRING_ARRAYLIST = "extrastrings";
+    public final static String ActivityMode = "ActivityMode";
+    public final static int ACTIVITY_MODE_SENDER = 0;
+    public final static int ACTIVITY_MODE_SERVER = 1;
+    private int currentActivityMode;
     private BluetoothManager bluetoothManager;
 
     @Override
@@ -23,23 +32,28 @@ public class BluetoothActivity extends Activity {
         Log.i(LOG_TAG, "onCreate");
         setContentView(R.layout.activity_bluetooth);
         bluetoothManager = new BluetoothManager(this);
-        this.setListeners();
+        currentActivityMode = getIntent().getIntExtra(BluetoothActivity.ActivityMode, 0);
+        initialize();
+        startActivity(new Intent(this, BtActivity.class));
     }
 
-    private void setListeners() {
-        findViewById(R.id.searchBtButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bluetoothManager.startSearchBtDevices();
-            }
-        });
-        findViewById(R.id.acceptButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bluetoothManager.startServerToAccept();
-                findViewById(R.id.btListView).setEnabled(false);
-            }
-        });
+    private void initialize() {
+        switch (currentActivityMode) {
+            case BluetoothActivity.ACTIVITY_MODE_SENDER:
+                findViewById(R.id.btListView).setVisibility(View.VISIBLE);
+                ArrayList<String> arrayList = getIntent().getStringArrayListExtra(BluetoothActivity
+                        .BLUETOOTH_EXTRA_STRING_ARRAYLIST);
+                setListeners(arrayList);
+                ((ProgressBar) findViewById(R.id.btProgressBar)).setMax(arrayList.size() - 1);
+                ((ProgressBar) findViewById(R.id.btProgressBar)).setIndeterminate(false);
+                break;
+            case BluetoothActivity.ACTIVITY_MODE_SERVER:
+                findViewById(R.id.btListView).setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    private void setListeners(final ArrayList<String> arrayList) {
         ((ListView)findViewById(R.id.btListView)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,7 +62,7 @@ public class BluetoothActivity extends Activity {
                 Log.i(LOG_TAG, "\n" +
                         ((TextView)view.findViewById(R.id.nameListLayoutTextView)).getText().toString() +
                         ", " + address + "\n");
-                bluetoothManager.connectToDevice(address);
+                bluetoothManager.connectAndSend(address, arrayList, (ProgressBar) findViewById(R.id.btProgressBar));
             }
         });
     }
@@ -57,30 +71,46 @@ public class BluetoothActivity extends Activity {
     protected void onStart() {
         super.onStart();
         Log.i(LOG_TAG, "onStart");
-        if(bluetoothManager.checkBtAccess()) {
-            bluetoothManager.printKnownBtDevicesToLog();
-        }
+        //if(bluetoothManager.checkBtAccess() &&
+        //        currentActivityMode == BluetoothActivity.ACTIVITY_MODE_SENDER) {
+        //    bluetoothManager.fillDevicesToListView((ListView) findViewById(R.id.btListView));
+        //}
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(LOG_TAG, "onResume");
-        bluetoothManager.registerReceiver();
-        bluetoothManager.fillDevicesToListView((ListView)findViewById(R.id.btListView));
+        switch (currentActivityMode) {
+            case BluetoothActivity.ACTIVITY_MODE_SENDER:
+                bluetoothManager.registerReceiver();
+                bluetoothManager.startSearchBtDevices();
+                break;
+            case BluetoothActivity.ACTIVITY_MODE_SERVER:
+                //bluetoothManager.startServerToAccept(findViewById(R.id.content_bt));
+                break;
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(LOG_TAG, "onPause");
-        bluetoothManager.stopSearchBtDevices();
-        bluetoothManager.unregisterReceiver();
+        switch (currentActivityMode) {
+            case BluetoothActivity.ACTIVITY_MODE_SENDER:
+                bluetoothManager.stopSearchBtDevices();
+                bluetoothManager.unregisterReceiver();
+                break;
+            case BluetoothActivity.ACTIVITY_MODE_SERVER:
+                //bluetoothManager.startServerToAccept();
+                break;
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        bluetoothManager.stopServer();
         Log.i(LOG_TAG, "onStop");
     }
 
@@ -96,7 +126,7 @@ public class BluetoothActivity extends Activity {
         switch (requestCode) {
             case BluetoothManager.REQUEST_ENABLE_BT:
                 if(resultCode == RESULT_OK) {
-                    bluetoothManager.printKnownBtDevicesToLog();
+                    // bluetoothManager.printKnownBtDevicesToLog();
                 }
                 else {
                     Toast.makeText(this, "bluetooth не был включен!", Toast.LENGTH_SHORT).show();

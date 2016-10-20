@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="scrollMainLayout">#a4feb0</color>
-    <color name="scrollTitleActivity">#e5f9dc</color>
+    <color name="scrollTitleActivity">#dceaa9</color>
     <color name="scrollBlockColor">#d4dbd2</color>
     <color name="metroBlock">#96dcf0</color>
 </resources>

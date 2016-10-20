@@ -152,7 +152,7 @@ public class ButtonClickListener implements View.OnClickListener{
                 }
                 Intent scrollIntent = new Intent(mainActivity, ScrollActivity.class);
                 CoordinatesForExtra forExtra = getCoordinatesForExtra();
-                scrollIntent.putExtra(ScrollActivity.ActivityMode, ScrollActivity.ACTIVITY_MODE_SAVE)
+                scrollIntent.putExtra(ScrollActivity.ACTIVITY_MODE, ScrollActivity.ACTIVITY_MODE_SAVE)
                         .putExtra(ScrollActivity.EXTRA_LATITUDE, forExtra.getLatitude())
                         .putExtra(ScrollActivity.EXTRA_LONGTITUDE, forExtra.getLongtitude())
                         .putExtra(ScrollActivity.EXTRA_ALTITUDE, forExtra.getAltitude());
@@ -160,7 +160,7 @@ public class ButtonClickListener implements View.OnClickListener{
                 break;
             case R.id.loadPosButton:
                 mainActivity.startActivityForResult(new Intent(mainActivity, ScrollActivity.class)
-                        .putExtra(ScrollActivity.ActivityMode, ScrollActivity.ACTIVITY_MODE_LOAD),
+                                .putExtra(ScrollActivity.ACTIVITY_MODE, ScrollActivity.ACTIVITY_MODE_LOAD),
                         ScrollActivity.ACTIVITY_MODE_LOAD);
                 break;
             case R.id.setPosWithoutUpdatesButton:

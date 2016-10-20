@@ -47,4 +47,5 @@
     <string name="loadPosButton">download</string>
     <string name="savePosButton">upload</string>
     <string name="address">Адрес:</string>
+    <string name="title_activity_bt">BtActivity</string>
 </resources>

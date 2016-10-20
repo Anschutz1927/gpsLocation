@@ -7,9 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +31,11 @@ public class BluetoothManager {
     private final Context mContext;
     private BluetoothAdapter bluetoothAdapter;
     private BtClientsListAdapter btClientsListAdapter;
+    private BTServer btServer;
+    private BTClient btClient;
 
     public BluetoothManager(Activity activity) {
+        Log.i(LOG_TAG, "BluetoothManager()");
         this.activity = activity;
         this.mContext = activity.getBaseContext();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -44,43 +49,36 @@ public class BluetoothManager {
                 String action = intent.getAction();
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    Log.i(LOG_TAG, " \nmReceiver:onRecive");
-                    Log.i(LOG_TAG, "bt device address = " + device.getAddress());
-                    Log.i(LOG_TAG, "bt device name = " + device.getName());
                     btClientsListAdapter.add(device.getName(), device.getAddress());
                 }
             }
         };
     }
 
-    public boolean checkBtAccess() {
-        if(bluetoothAdapter == null) {
-            Toast.makeText(mContext, "Не удалось обнаружть bluetooth!", Toast.LENGTH_SHORT).show();
-            activity.finish();
-        }
+    /**
+     * Return false when device is not have bt.
+     */
+    public boolean isBtExist() {
+        Log.i(LOG_TAG, "isBtExist()");
+        return bluetoothAdapter != null;
+
+    }
+
+    /**
+     * Return true if bt is enabled or is sending request to turn on bt.
+     */
+    public boolean isBtAccess() {
+        Log.i(LOG_TAG, "checkBtAccess()");
         if(!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            Toast.makeText(mContext, "bluetooth выключен!", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    public void printKnownBtDevicesToLog() {
-        Log.i(LOG_TAG, "bluetooth is enabled\n");
-        Log.i(LOG_TAG, "bt device address = " + bluetoothAdapter.getAddress());
-        Log.i(LOG_TAG, "bt device name = " + bluetoothAdapter.getName());
-        Log.i(LOG_TAG, "bt device state = " + bluetoothAdapter.getState());
-        Set<BluetoothDevice> pairedDevice = bluetoothAdapter.getBondedDevices();
-        if(pairedDevice.size() > 0) {
-            for (BluetoothDevice device : pairedDevice) {
-                Log.i(LOG_TAG, "pairedDevice " + device.getName());
-            }
-        }
-    }
-
     public void fillDevicesToListView(ListView listView) {
+        Log.i(LOG_TAG, "fillDevicesToListView()");
         btClientsListAdapter = new BtClientsListAdapter(mContext,
                 new ArrayList<HashMap<String, String>>());
         Set<BluetoothDevice> pairedDevice = bluetoothAdapter.getBondedDevices();
@@ -93,30 +91,52 @@ public class BluetoothManager {
     }
 
     public void registerReceiver() {
+        Log.i(LOG_TAG, "registerReceiver()");
         this.activity.registerReceiver(receiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
     }
 
     public void unregisterReceiver() {
+        Log.i(LOG_TAG, "unregisterReceiver()");
         this.activity.unregisterReceiver(receiver);
     }
 
     public void startSearchBtDevices() {
+        Log.i(LOG_TAG, "startSearchBtDevices()");
         this.bluetoothAdapter.startDiscovery();
     }
 
     public void stopSearchBtDevices() {
+        Log.i(LOG_TAG, "stopSearchBtDevices()");
         if(bluetoothAdapter.isDiscovering()) {
             this.bluetoothAdapter.cancelDiscovery();
         }
     }
 
-    public void startServerToAccept() {
-        BTServer btServer = new BTServer(bluetoothAdapter, mContext);
+    public void startServerToAccept(LinearLayout layout, BtProcessListener btProcessListener) {
+        Log.i(LOG_TAG, "startServerToAccept():");
+        if (btServer == null) {
+            Log.i(LOG_TAG, "new btServer");
+            btServer = new BTServer(bluetoothAdapter, layout, btProcessListener, mContext);
+        }
         btServer.startServer();
     }
 
-    public void connectToDevice(String address) {
-        BTClient btClient = new BTClient(bluetoothAdapter, mContext);
-        btClient.connectToDevice(address);
+    public void stopServer() {
+        Log.i(LOG_TAG, "stopServer()");
+        if (btServer != null) {
+            btServer.stopServer();
+        }
+    }
+
+    public void connectAndSend(String address, ArrayList<String> stringArrayListExtra, ProgressBar progressBar) {
+        Log.i(LOG_TAG, "connectToDevice");
+        btClient = new BTClient(bluetoothAdapter, mContext, progressBar);
+        btClient.connectAndSend(address, stringArrayListExtra);
+    }
+
+    public void setDataSaveButton(FloatingActionButton fab) {
+        if (btServer != null) {
+            btServer.setDataSaveButton(fab);
+        }
     }
 }

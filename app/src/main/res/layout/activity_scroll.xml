@@ -27,13 +27,38 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="bluetooth"
-            android:id="@+id/bluetoothButton"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="right"
+            android:id="@+id/bluetoothLayout">
+
+            <Button
+                android:text="отправить"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sendWithBtButton"
+                android:layout_weight="1"
+                android:visibility="visible" />
+
+            <Button
+                android:text="принять"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/getFromBtButton"
+                android:layout_weight="1"
+                android:visibility="visible" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bluetoothButton"
+                android:layout_gravity="right|center_vertical"
+                android:background="@android:drawable/ic_menu_share"
+                android:layout_weight="0" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/noname"
@@ -32,7 +35,16 @@
             android:exported="true" />
 
         <activity android:name=".activity.scrollActivity.ScrollActivity" />
-        <activity android:name=".activity.bluetoothActivity.BluetoothActivity"></activity>
+        <activity android:name=".activity.bluetoothActivity.BluetoothActivity" />
+        <activity
+            android:name=".activity.BtActivity"
+            android:label="@string/title_activity_bt"
+            android:parentActivityName=".activity.scrollActivity.ScrollActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity" />
+        </activity>
     </application>
 
 </manifest>

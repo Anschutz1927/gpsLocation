@@ -23,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
     private ChelocService chelocService;
     private boolean bound;
     private LocationListener locationListener;
+    private int build;
 
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
-        Log.i(LOG_TAG, "ver20");
+        this.build = 64;
     }
 
     @Override
@@ -117,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
     private void setProperties() {
         try {
             ((TextView)findViewById(R.id.verTextView))
-                    .setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                    .setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName
+                            + "build" + this.build);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

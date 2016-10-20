@@ -13,4 +13,6 @@ public interface TextInterface {
     void setEms (int ems);
 
     void setInputType (int type);
+
+    void setTextColor(int color);
 }
