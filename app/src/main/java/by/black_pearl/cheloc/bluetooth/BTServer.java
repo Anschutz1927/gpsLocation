@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import by.black_pearl.cheloc.DataBaser;
 import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.TimerHandler;
+import by.black_pearl.cheloc.TimerHandlerListener;
 import by.black_pearl.cheloc.activity.scrollActivity.AddressBlock;
 
 /**
@@ -30,6 +32,7 @@ public class BTServer {
     private static final String SPLIT_TAG = "\\*\\*\\*";
     private BtProcessListener mListener;
     private boolean mIsRunning = true;
+    private TimerHandler mTimerHandler;
 
     /**
      * Use this class to start bt server to get data from other devices.
@@ -42,6 +45,16 @@ public class BTServer {
         this.mContext = context;
         this.linearLayout = layout;
         this.mListener = btProcessListener;
+        this.mTimerHandler = new TimerHandler(getTimerRunnable());
+    }
+
+    private TimerHandlerListener getTimerRunnable() {
+        return new TimerHandlerListener() {
+            @Override
+            public void timerStopped() {
+                mIsRunning = false;
+            }
+        };
     }
 
     /**
@@ -101,6 +114,9 @@ public class BTServer {
                             message += new String(new byte[]{(byte) inputStream.read()}, "windows-1251");
                         } else {
                             if (!message.equals("")) {
+                                if(!mTimerHandler.isTimerStop()) {
+                                    mTimerHandler.stopTimer();
+                                }
                                 if (message.equals(BTClient.STOP_MARKER)) {
                                     mListener.sendComplete();
                                     bluetoothSocket.close();
@@ -111,7 +127,9 @@ public class BTServer {
                                 linearLayout.post(getAddressBlockAdderRunnable(message));
                                 message = "";
                             } else {
-                                //this place to timer to shutdown server.
+                                if(mTimerHandler.isTimerStop()) {
+                                    mTimerHandler.startTimer(TimerHandler.DEFAULT_EXTEND_TIME_3);
+                                }
                             }
                         }
                     }

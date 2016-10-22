@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import by.black_pearl.cheloc.DataBaser;
 import by.black_pearl.cheloc.R;
-import by.black_pearl.cheloc.activity.BtActivity;
+import by.black_pearl.cheloc.activity.bluetoothActivity.BtActivity;
 import by.black_pearl.cheloc.activity.mainActivity.Dialogs;
 
 /**

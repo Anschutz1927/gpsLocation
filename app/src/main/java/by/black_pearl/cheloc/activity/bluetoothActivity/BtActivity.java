@@ -1,4 +1,4 @@
-package by.black_pearl.cheloc.activity;
+package by.black_pearl.cheloc.activity.bluetoothActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import by.black_pearl.cheloc.R;
@@ -104,7 +103,7 @@ public class BtActivity extends AppCompatActivity {
                 mBluetoothManager.connectAndSend(
                         address,
                         getIntent().getStringArrayListExtra(BtActivity.INTENT_EXTRA_STRING_ARRAYLIST),
-                        (ProgressBar) findViewById(R.id.btProgressBar)
+                        null
                 );
             }
         });

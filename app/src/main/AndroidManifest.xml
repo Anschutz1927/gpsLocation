@@ -18,7 +18,8 @@
         android:icon="@drawable/noname"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:logo="@drawable/noname">
         <activity
             android:name=".activity.mainActivity.MainActivity"
             android:screenOrientation="portrait">
@@ -34,10 +35,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.scrollActivity.ScrollActivity" />
-        <activity android:name=".activity.bluetoothActivity.BluetoothActivity" />
+        <activity android:name=".activity.scrollActivity.ScrollActivity"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.BtActivity"
+            android:name=".activity.bluetoothActivity.BtActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_bt"
             android:parentActivityName=".activity.scrollActivity.ScrollActivity"
             android:theme="@style/AppTheme.NoActionBar">
