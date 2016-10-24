@@ -41,6 +41,7 @@ public class BtActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,6 +91,7 @@ public class BtActivity extends AppCompatActivity {
             listViewBtDevices.setLayoutParams(params);
             mBluetoothManager.fillDevicesToListView(listViewBtDevices);
             addListener(listViewBtDevices);
+            assert findViewById(R.id.content_bt) != null;
             ((LinearLayout) findViewById(R.id.content_bt)).addView(listViewBtDevices);
         }
     }
@@ -116,7 +118,7 @@ public class BtActivity extends AppCompatActivity {
         if (!this.mBtIsEnabled) return;
         if (this.mIsServerMode) {
             mBluetoothManager.startServerToAccept(
-                    (LinearLayout) findViewById(R.id.content_bt),
+                    (LinearLayout) findViewById(R.id.addressBlockLayout),
                     getBtProcessListener()
             );
             setOnClickListener(0);

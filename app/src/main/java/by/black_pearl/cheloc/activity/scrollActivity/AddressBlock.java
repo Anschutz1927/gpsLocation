@@ -5,9 +5,11 @@ import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import by.black_pearl.cheloc.R;
@@ -16,10 +18,8 @@ import by.black_pearl.cheloc.activity.TextInterface;
 import by.black_pearl.cheloc.activity.TextView;
 import by.black_pearl.cheloc.activity.mainActivity.Dialogs;
 
-import static android.support.v7.appcompat.R.attr.editTextColor;
-
 /**
- * .
+ * By BlackPearl.
  */
 public class AddressBlock extends LinearLayout {
     private Context mContext;
@@ -30,36 +30,34 @@ public class AddressBlock extends LinearLayout {
     private CheckBox checkBox;
     public static final boolean EDITABLE_ON = true;
     public static final boolean EDITABLE_OFF = false;
-    private final int FLAG_MAIN = 0;
-    private final int FLAG_INFO = 1;
-    private final int FLAG_CHECKBOX = 2;
 
+    /**
+     * It provides block: address - position.
+     *
+     * @param context    base context.
+     * @param isEditable true when block created for save data to have access to rewrite data.
+     */
     public AddressBlock(Context context, boolean isEditable) {
         super(context);
         this.mContext = context;
-        this.setOrientation(HORIZONTAL);
         generateAddressBlock(isEditable);
         this.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.scrollBlockColor));
     }
 
     private void generateAddressBlock(boolean isEditable) {
-        TextView textAddressTextView = new TextView(mContext);
-        TextView textLatitudeTextView = new TextView(mContext);
-        TextView textLongtitudeTextView = new TextView(mContext);
-        TextView textAltitudeTextView = new TextView(mContext);
+        LayoutInflater.from(mContext).inflate(R.layout.address_block, this, true);
         if(isEditable) {
-            int EMS = 7;
             addressTextView = new EditText(mContext);
-            ((android.widget.EditText)(this.addressTextView)).setHint("Введите адрес...");
-            ((android.widget.EditText) (this.addressTextView)).requestFocus();
+            ((EditText) addressTextView).requestTextFocus();
+            ((EditText) addressTextView).setTextHint("Введите адрес...");
             latitudeTextView = new EditText(mContext);
-            latitudeTextView.setEms(EMS);
+            ((EditText) latitudeTextView).setTextHint("53.xxxxxxxx");
             latitudeTextView.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
             longtitudeTextView = new EditText(mContext);
-            longtitudeTextView.setEms(EMS);
+            ((EditText) longtitudeTextView).setTextHint("27.xxxxxxxx");
             longtitudeTextView.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
             altitudeTextView = new EditText(mContext);
-            altitudeTextView.setEms(EMS);
+            ((EditText) altitudeTextView).setTextHint("80 - 340");
             altitudeTextView.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
         }
         else {
@@ -68,65 +66,20 @@ public class AddressBlock extends LinearLayout {
             longtitudeTextView = new TextView(mContext);
             altitudeTextView = new TextView(mContext);
         }
-        textAddressTextView.setText(R.string.address);
-        textLatitudeTextView.setText(R.string.Latitude);
-        textLongtitudeTextView.setText(R.string.Longitude);
-        textAltitudeTextView.setText(R.string.Altitude);
-        textAddressTextView.setGravity(Gravity.CENTER);
-        textLatitudeTextView.setGravity(Gravity.LEFT);
-        textLongtitudeTextView.setGravity(Gravity.LEFT);
-        textAltitudeTextView.setGravity(Gravity.LEFT);
-        addressTextView.setTextColor(editTextColor);
-        latitudeTextView.setTextColor(editTextColor);
-        longtitudeTextView.setTextColor(editTextColor);
-        altitudeTextView.setTextColor(editTextColor);
-        addressTextView.setGravity(Gravity.CENTER);
-        LinearLayout infoLayout = new LinearLayout(mContext);
-        infoLayout.setOrientation(VERTICAL);
-        infoLayout.setLayoutParams(setLayoutParams(FLAG_INFO));
-        infoLayout.addView(textAddressTextView);
-        infoLayout.addView((View) addressTextView);
-        infoLayout.addView(textLatitudeTextView);
-        infoLayout.addView((View) latitudeTextView);
-        infoLayout.addView(textLongtitudeTextView);
-        infoLayout.addView((View) longtitudeTextView);
-        infoLayout.addView(textAltitudeTextView);
-        infoLayout.addView((View) altitudeTextView);
-        this.checkBox = new CheckBox(mContext);
+        this.addressTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        this.addressTextView.setTextLayoutParams(params);
+        this.checkBox = (CheckBox) findViewById(R.id.addressBlockCheckBox);
         this.checkBox.setChecked(false);
         this.checkBox.setVisibility(GONE);
-        //this.checkBox.setBackgroundColor(Color.GRAY);
-        LinearLayout checkLayout = new LinearLayout(mContext);
-        checkLayout.setOrientation(VERTICAL);
-        checkLayout.setLayoutParams(setLayoutParams(FLAG_CHECKBOX));
-        checkLayout.setGravity(Gravity.CENTER_VERTICAL);
-        checkLayout.addView(this.checkBox);
-        this.addView(infoLayout);
-        this.addView(checkLayout);
-        this.setLayoutParams(setLayoutParams(FLAG_MAIN));
-    }
-
-    private LayoutParams setLayoutParams(int flag) {
-        LayoutParams linearParams;
-        switch (flag) {
-            case FLAG_MAIN:
-                linearParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                linearParams.setMargins(15, 15, 15, 15);
-                return linearParams;
-            case FLAG_INFO:
-                linearParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                linearParams.weight = 1;
-                return linearParams;
-            case FLAG_CHECKBOX:
-                linearParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT);
-                linearParams.setMargins(15, 15, 15, 15);
-                linearParams.weight = 0;
-                return linearParams;
-        }
-        return null;
+        ((LinearLayout) this.findViewById(R.id.addressLayout)).addView((View) addressTextView);
+        ((LinearLayout) this.findViewById(R.id.latitudeLayout)).addView((View) latitudeTextView);
+        ((LinearLayout) this.findViewById(R.id.longtitudeLayout)).addView((View) longtitudeTextView);
+        ((LinearLayout) this.findViewById(R.id.altitudeLayout)).addView((View) altitudeTextView);
     }
 
     public void setupLongClick(final int id, final LoadActivity loadActivity) {

@@ -6,5 +6,9 @@ package by.black_pearl.cheloc;
 
 public interface TimerHandlerListener {
 
-    public void timerStopped();
+    void timerSterted();
+
+    void timerTerminated();
+
+    void timerStopped();
 }

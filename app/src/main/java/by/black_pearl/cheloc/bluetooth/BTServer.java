@@ -24,7 +24,7 @@ import by.black_pearl.cheloc.activity.scrollActivity.AddressBlock;
  * By BLACK_Pearl.
  * This class to start bt server to get data from other devices.
  */
-public class BTServer {
+class BTServer {
     private final static String LOG_TAG = "BTServer";
     private final BluetoothAdapter bluetoothAdapter;
     private Context mContext;
@@ -39,7 +39,7 @@ public class BTServer {
      * @param bluetoothAdapter
      * @param btProcessListener
      */
-    public BTServer(BluetoothAdapter bluetoothAdapter, LinearLayout layout, BtProcessListener btProcessListener, Context context) {
+    BTServer(BluetoothAdapter bluetoothAdapter, LinearLayout layout, BtProcessListener btProcessListener, Context context) {
         Log.i(LOG_TAG, "BTServer()");
         this.bluetoothAdapter = bluetoothAdapter;
         this.mContext = context;
@@ -51,6 +51,16 @@ public class BTServer {
     private TimerHandlerListener getTimerRunnable() {
         return new TimerHandlerListener() {
             @Override
+            public void timerSterted() {
+
+            }
+
+            @Override
+            public void timerTerminated() {
+
+            }
+
+            @Override
             public void timerStopped() {
                 mIsRunning = false;
             }
@@ -60,7 +70,7 @@ public class BTServer {
     /**
      * Starts listen for incoming bt connection.
      */
-    public void startServer() {
+    void startServer() {
         Log.i(LOG_TAG, "startServer()");
         Runnable serverRunnable = new Runnable() {
             @Override
@@ -128,7 +138,7 @@ public class BTServer {
                                 message = "";
                             } else {
                                 if(mTimerHandler.isTimerStop()) {
-                                    mTimerHandler.startTimer(TimerHandler.DEFAULT_EXTEND_TIME_3);
+                                    mTimerHandler.startTimer(TimerHandler.DEFAULT_EXTEND_TIME_60);
                                 }
                             }
                         }
@@ -172,7 +182,7 @@ public class BTServer {
     /**
      * Try to stop running bt server.
      */
-    public void stopServer() {
+    void stopServer() {
         Log.i(LOG_TAG, "stopServer()");
         this.mIsRunning = false;
     }
@@ -182,7 +192,7 @@ public class BTServer {
      *
      * @param fab - FloatingActionButton.
      */
-    public void setDataSaveButton(FloatingActionButton fab) {
+    void setDataSaveButton(FloatingActionButton fab) {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
