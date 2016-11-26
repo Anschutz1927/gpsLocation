@@ -7,28 +7,35 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import by.black_pearl.cheloc.R;
 import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
+import by.black_pearl.cheloc.fragments.SetPosFragment;
+import by.black_pearl.cheloc.fragments.StartFragment;
 import by.black_pearl.cheloc.location.LocationListener;
 import by.black_pearl.cheloc.location.service.ChelocService;
 import by.black_pearl.cheloc.location.service.ServiceBinder;
 
 public class MainActivity extends AppCompatActivity {
-    private final String LOG_TAG = "ChelocMainActivity";
+    private final static String LOG_TAG = "ChelocMainActivity";
+    public final static int CHANGE_TO_SETPOSFRAGMENT = 0;
+    public final static int CHANGE_TO_STARTFRAGMENT = 1;
     private ChelocService chelocService;
     private boolean bound;
     private LocationListener locationListener;
     private int build;
+    private static int sAddSize = 5;
+    private Fragment mCurrentFragment;
 
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
-        this.build = 67;
+        this.build = 69;
     }
 
     @Override
@@ -36,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.locationListener = new LocationListener(this);
-        setOnClickListeners();
-        setProperties();
+        this.locationListener = new LocationListener();
     }
 
     @Override
@@ -57,13 +62,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        fragmentChanger(CHANGE_TO_STARTFRAGMENT);
+    }
+
+    @Override
     public void onBackPressed() {
         Log.i(LOG_TAG, "onBackPressed");
-        if ((findViewById(R.id.startLayout)).getVisibility() == View.VISIBLE) {
-            Dialogs.showExitDialog(MainActivity.this);
-        } else {
-            (findViewById(R.id.startLayout)).setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -123,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        findViewById(R.id.startLayout).setVisibility(View.VISIBLE);
-        findViewById(R.id.setPosScrollLayout).setVisibility(View.GONE);
     }
 
     private void setOnClickListeners() {
@@ -137,6 +141,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.setPosWithUpdatesButton).setOnClickListener(listener);
         findViewById(R.id.cancelSetLocationButton).setOnClickListener(listener);
         findViewById(R.id.stopMockLocationButton).setOnClickListener(listener);
+    }
+
+    public void fragmentChanger(int changeTo) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        switch (changeTo) {
+            case CHANGE_TO_STARTFRAGMENT:
+                ft.replace(R.id.mainActivityLyaout, StartFragment.newInstance());
+                break;
+            case CHANGE_TO_SETPOSFRAGMENT:
+                ft.replace(R.id.mainActivityLyaout, SetPosFragment.newInstance());
+                break;
+        }
+        ft.commit();
     }
 
     @Override
@@ -165,4 +182,5 @@ public class MainActivity extends AppCompatActivity {
             setBound(false);
         }
     };
+
 }

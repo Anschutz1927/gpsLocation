@@ -1,8 +1,12 @@
 package by.black_pearl.cheloc.activity.scrollActivity;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,6 +46,19 @@ public class AddressBlock extends LinearLayout {
         this.mContext = context;
         generateAddressBlock(isEditable);
         this.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.scrollBlockColor));
+    }
+
+    public AddressBlock(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public AddressBlock(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public AddressBlock(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     private void generateAddressBlock(boolean isEditable) {
