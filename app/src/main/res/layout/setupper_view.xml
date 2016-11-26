@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    android:scrollIndicators="left|right">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/savePosButon"
+                android:background="@android:drawable/ic_menu_save" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/loadPosButton"
+                android:background="@android:drawable/ic_menu_edit" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Latitude" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="7"
+            android:id="@+id/latEditText"
+            android:layout_gravity="center"
+            android:textIsSelectable="false"
+            android:singleLine="true"
+            android:inputType="numberDecimal"
+            android:editable="false"
+            android:maxLength="10"
+            android:textAlignment="center"
+            android:hint="Широта (52.ххх)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Longitude" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="7"
+            android:id="@+id/longEditText"
+            android:layout_gravity="center"
+            android:textIsSelectable="false"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:textAlignment="center"
+            android:hint="Долгота (27.ххх)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Altitude" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="7"
+            android:id="@+id/altEditText"
+            android:textIsSelectable="false"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:textAlignment="center"
+            android:elegantTextHeight="false"
+            android:hint="Введите высоту" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/randomPositionCheckBox"
+            android:id="@+id/randPosCheckBox"
+            android:layout_gravity="center_horizontal"
+            android:checked="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/moveModeTextView"
+            android:layout_gravity="center_horizontal" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/setSpeedModeRadioGroup">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stayModeRadioButton"
+                android:id="@+id/staySpeedModeRadioButton"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/walkModeRadioButton"
+                android:id="@+id/walkSpeedModeRadioButton"
+                android:layout_weight="1"
+                android:checked="true" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/driveModeRadioButton"
+                android:id="@+id/driveSpeedModeRadioButton"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setLocationButton"
+            android:id="@+id/setPosWithoutUpdatesButton"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:drawable/btn_default_small" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setLocationServiceButton"
+            android:id="@+id/setPosWithUpdatesButton"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@android:drawable/btn_default_small" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancelSetLocationButton"
+            android:id="@+id/cancelSetLocationButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@android:drawable/btn_default_small" />
+
+    </LinearLayout>
+
+</ScrollView>

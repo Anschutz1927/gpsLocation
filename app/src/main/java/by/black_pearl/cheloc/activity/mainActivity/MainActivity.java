@@ -7,28 +7,36 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import by.black_pearl.cheloc.R;
 import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
+import by.black_pearl.cheloc.fragments.SetPosFragment;
+import by.black_pearl.cheloc.fragments.StartFragment;
 import by.black_pearl.cheloc.location.LocationListener;
 import by.black_pearl.cheloc.location.service.ChelocService;
 import by.black_pearl.cheloc.location.service.ServiceBinder;
 
 public class MainActivity extends AppCompatActivity {
-    private final String LOG_TAG = "ChelocMainActivity";
+    private final static String LOG_TAG = "ChelocMainActivity";
+    public final static int CHANGE_TO_SETPOSFRAGMENT = 0;
+    public final static int CHANGE_TO_STARTFRAGMENT = 1;
     private ChelocService chelocService;
     private boolean bound;
     private LocationListener locationListener;
     private int build;
+    private static int sAddSize = 5;
 
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
         this.bound = false;
-        this.build = 67;
+        this.build = 69;
     }
 
     @Override
@@ -54,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "onResume");
         super.onResume();
         locationListener.setRequestLocationUpdates();
+        tabResizer((Button) findViewById(R.id.tabOnceButton), null);
     }
 
     @Override
@@ -127,6 +136,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.setPosScrollLayout).setVisibility(View.GONE);
     }
 
+    public void tabResizer(Button button1, @Nullable Button button2) {
+        int size_width = button1.getWidth();
+        int size_height = button1.getHeight();
+        button1.setWidth(size_width + sAddSize);
+        button1.setHeight(size_height + sAddSize);
+        if (button2 != null) {
+            size_width = button1.getWidth();
+            size_height = button1.getHeight();
+            button2.setWidth(size_width - sAddSize);
+            button2.setHeight(size_height - sAddSize);
+        }
+    }
+
     private void setOnClickListeners() {
         ButtonClickListener listener = new ButtonClickListener(MainActivity.this);
         findViewById(R.id.exitButton).setOnClickListener(listener);
@@ -137,6 +159,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.setPosWithUpdatesButton).setOnClickListener(listener);
         findViewById(R.id.cancelSetLocationButton).setOnClickListener(listener);
         findViewById(R.id.stopMockLocationButton).setOnClickListener(listener);
+    }
+
+    public void fragmentChanger(int id) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        switch (id) {
+            case CHANGE_TO_STARTFRAGMENT:
+                ft.replace(R.id.mainActivityLyaout, StartFragment.newInstance());
+                break;
+            case CHANGE_TO_SETPOSFRAGMENT:
+                ft.replace(R.id.mainActivityLyaout, SetPosFragment.newInstance());
+                break;
+        }
+        ft.commit();
     }
 
     @Override
@@ -165,4 +200,5 @@ public class MainActivity extends AppCompatActivity {
             setBound(false);
         }
     };
+
 }

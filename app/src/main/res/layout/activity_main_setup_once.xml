@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="?attr/colorButtonNormal">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cancelOneButton"
+                android:layout_gravity="right"
+                android:background="@android:drawable/ic_menu_close_clear_cancel"
+                android:textSize="8sp"
+                android:minWidth="10dip"
+                android:minHeight="10dip"
+                android:layout_marginBottom="10dp" />
+
+            <Switch
+                android:text="Отключить эмулятор GPS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/turnOffEmulatorSwitch"
+                android:textAllCaps="false"
+                android:layout_marginBottom="10dp"
+                android:focusable="false"
+                android:scrollbarSize="5dp" />
+
+            <Switch
+                android:text='"Приглушить" датчик GPS'
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/turnOnEmulatorSwitch"
+                android:textAllCaps="false"
+                android:layout_marginBottom="10dp"
+                android:focusable="false"
+                android:scrollbarSize="5dp" />
+
+            <TextView
+                android:text="@string/Latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="8"
+                android:id="@+id/settedLatitudeEditText"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:hint="53.xxxxxxxx"
+                android:background="#dee1e1" />
+
+            <TextView
+                android:text="@string/Longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:id="@+id/settedLongtitudeEditText"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:hint="27.xxxxxxxx"
+                android:inputType="numberDecimal"
+                android:background="#dee1e1" />
+
+            <TextView
+                android:text="@string/Altitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:id="@+id/settedAltitudeEditText"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:hint="100-320"
+                android:inputType="number"
+                android:background="#dee1e1"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:text="Время установки:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="4"
+                    android:id="@+id/timeEditText"
+                    android:layout_weight="0"
+                    android:hint="минут"
+                    android:background="#dee1e1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
