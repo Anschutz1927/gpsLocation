@@ -93,7 +93,8 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gpsLocationLayout">
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -101,15 +102,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Latitude" />
+                            android:text="@string/Latitude"
+                            android:layout_weight="1" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/noValue"
-                            android:id="@+id/latGpsLocationTextView" />
+                            android:id="@+id/latGpsLocationTextView"
+                            android:layout_weight="0.5" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -118,15 +121,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Longitude" />
+                            android:text="@string/Longitude"
+                            android:layout_weight="1" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/noValue"
-                            android:id="@+id/longGpsLocationTextView" />
+                            android:id="@+id/longGpsLocationTextView"
+                            android:layout_weight="0.5" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -135,15 +140,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Altitude" />
+                            android:text="@string/Altitude"
+                            android:layout_weight="1" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/noValue"
-                            android:id="@+id/altGpsLocationTextView" />
+                            android:id="@+id/altGpsLocationTextView"
+                            android:layout_weight="0.5" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,15 +159,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Bearing" />
+                            android:text="@string/Bearing"
+                            android:layout_weight="1" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/noValue"
-                            android:id="@+id/brnGpsLocationTextView" />
+                            android:id="@+id/brnGpsLocationTextView"
+                            android:layout_weight="0.5" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -169,15 +178,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Speed" />
+                            android:text="@string/Speed"
+                            android:layout_weight="1" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/noValue"
-                            android:id="@+id/spdGpsLocationTextView" />
+                            android:id="@+id/spdGpsLocationTextView"
+                            android:layout_weight="0.5" />
 
                     </LinearLayout>
 
@@ -187,15 +198,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Satellites" />
+                            android:text="@string/Satellites"
+                            android:layout_weight="1" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/noValue"
-                            android:id="@+id/stlGpsLocationTextView" />
+                            android:id="@+id/stlGpsLocationTextView"
+                            android:layout_weight="0.5" />
                     </LinearLayout>
 
                 </LinearLayout>

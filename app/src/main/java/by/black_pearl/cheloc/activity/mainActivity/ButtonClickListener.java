@@ -5,15 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import by.black_pearl.cheloc.MoreSetup;
 import by.black_pearl.cheloc.R;
 import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
 import by.black_pearl.cheloc.location.Coordinates;
@@ -123,10 +120,6 @@ public class ButtonClickListener implements View.OnClickListener{
         stopMockDialog.show();
     }
 
-    private void closeSetPosLayout() {
-        mainActivity.findViewById(R.id.setPosScrollLayout).setVisibility(View.GONE);
-        mainActivity.findViewById(R.id.startLayout).setVisibility(View.VISIBLE);
-    }
 
     private void toastReloadApp() {
         Toast.makeText(mainActivity, "Не задано. Перезапустите приложение...",
@@ -141,24 +134,9 @@ public class ButtonClickListener implements View.OnClickListener{
                 break;
             case R.id.toSetPosButton:
                 setLocationToSetPosScrollLayout();
-                mainActivity.findViewById(R.id.startLayout).setVisibility(View.GONE);
-                mainActivity.findViewById(R.id.setPosScrollLayout).setVisibility(View.VISIBLE);
                 break;
             case R.id.stopMockLocationButton:
                 stopMockLocation();
-                mainActivity.setServiceStatusOnTextView();
-                break;
-            case R.id.tabOnceButton:
-                mainActivity.tabResizer((Button) v, (Button) mainActivity.findViewById(R.id.tabOneplusButton));
-                LinearLayout setPosLayoutOne = (LinearLayout) mainActivity.findViewById(R.id.setPosLayout);
-                setPosLayoutOne.removeViewAt(2);
-                mainActivity.findViewById(R.id.onceLayout).setVisibility(View.VISIBLE);
-                break;
-            case R.id.tabOneplusButton:
-                mainActivity.tabResizer((Button) v, (Button) mainActivity.findViewById(R.id.tabOnceButton));
-                mainActivity.findViewById(R.id.onceLayout).setVisibility(View.GONE);
-                LinearLayout setPosLayoutMore = (LinearLayout) mainActivity.findViewById(R.id.setPosLayout);
-                setPosLayoutMore.addView(new MoreSetup(mainActivity));
                 break;
             case R.id.savePosButon:
                 if(hasMistakes()) {
@@ -190,12 +168,9 @@ public class ButtonClickListener implements View.OnClickListener{
                     else {
                         chelocService.changeMockLocation(getCoordinates(), false);
                     }
-                    closeSetPosLayout();
                 }
                 else {
-                    closeSetPosLayout();
                 }
-                mainActivity.setServiceStatusOnTextView();
                 break;
             case R.id.setPosWithUpdatesButton:
                 if(hasMistakes()) {
@@ -217,15 +192,12 @@ public class ButtonClickListener implements View.OnClickListener{
                     else {
                         chelocService.changeMockLocation(getCoordinates(), true);
                     }
-                    closeSetPosLayout();
                 }
                 else {
                     toastReloadApp();
                 }
-                mainActivity.setServiceStatusOnTextView();
                 break;
             case R.id.cancelSetLocationButton:
-                closeSetPosLayout();
                 break;
         }
     }

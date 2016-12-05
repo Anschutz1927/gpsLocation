@@ -44,8 +44,6 @@ public class MoreSetup extends LinearLayout implements View.OnClickListener {
                 break;
             case R.id.cancelMoreButton:
                 LinearLayout mainLinearLyaout = (LinearLayout) (getParent().getParent().getParent());
-                mainLinearLyaout.findViewById(R.id.setPosScrollLayout).setVisibility(View.GONE);
-                mainLinearLyaout.findViewById(R.id.startLayout).setVisibility(View.VISIBLE);
                 break;
             case R.id.okMoreButton:
                 break;

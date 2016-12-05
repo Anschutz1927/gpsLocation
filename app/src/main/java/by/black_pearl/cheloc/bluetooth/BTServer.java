@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import by.black_pearl.cheloc.DataBaser;
 import by.black_pearl.cheloc.R;
 import by.black_pearl.cheloc.TimerHandler;
-import by.black_pearl.cheloc.TimerHandlerListener;
 import by.black_pearl.cheloc.activity.scrollActivity.AddressBlock;
 
 /**
@@ -48,20 +47,20 @@ class BTServer {
         this.mTimerHandler = new TimerHandler(getTimerRunnable());
     }
 
-    private TimerHandlerListener getTimerRunnable() {
-        return new TimerHandlerListener() {
+    private TimerHandler.TimerHandlerListener getTimerRunnable() {
+        return new TimerHandler.TimerHandlerListener() {
             @Override
-            public void timerSterted() {
+            public void timerStart() {
 
             }
 
             @Override
-            public void timerTerminated() {
+            public void timerPause() {
 
             }
 
             @Override
-            public void timerStopped() {
+            public void timerStop() {
                 mIsRunning = false;
             }
         };

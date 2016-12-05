@@ -7,4 +7,6 @@
     <color name="scrollTitleActivity">#dceaa9</color>
     <color name="scrollBlockColor">#498d35</color>
     <color name="metroBlock">#a8e6f8</color>
+    <color name="fragment_start.outdated_location">#ff7979</color>
+    <color name="fragment_start.updated_location">#90f485</color>
 </resources>

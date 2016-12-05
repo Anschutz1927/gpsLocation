@@ -4,6 +4,9 @@ package by.black_pearl.cheloc.location;
  * .
  */
 public class CoordinatesForExtra {
+    public static final String EXTRA_LATITUDE = "latitude";
+    public static final String EXTRA_LONGTITUDE = "longtitude";
+    public static final String EXTRA_ALTITUDE = "altitude";
     private String latitude;
     private String longtitude;
     private String altitude;

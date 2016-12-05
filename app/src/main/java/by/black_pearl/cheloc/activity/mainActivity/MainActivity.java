@@ -4,19 +4,18 @@ package by.black_pearl.cheloc.activity.mainActivity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.Fragment;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 
 import by.black_pearl.cheloc.R;
-import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
 import by.black_pearl.cheloc.fragments.SetPosFragment;
 import by.black_pearl.cheloc.fragments.StartFragment;
+import by.black_pearl.cheloc.location.CoordinatesForExtra;
 import by.black_pearl.cheloc.location.LocationListener;
 import by.black_pearl.cheloc.location.service.ChelocService;
 import by.black_pearl.cheloc.location.service.ServiceBinder;
@@ -25,17 +24,14 @@ public class MainActivity extends AppCompatActivity {
     private final static String LOG_TAG = "ChelocMainActivity";
     public final static int CHANGE_TO_SETPOSFRAGMENT = 0;
     public final static int CHANGE_TO_STARTFRAGMENT = 1;
-    private ChelocService chelocService;
-    private boolean bound;
-    private LocationListener locationListener;
-    private int build;
-    private static int sAddSize = 5;
-    private Fragment mCurrentFragment;
+    private ChelocService mChelocService;
+    private boolean mBound;
+    private LocationListener mLocationListener;
+    private boolean isStarted = true;
 
     public MainActivity() {
         Log.i(LOG_TAG, "MainActivity");
-        this.bound = false;
-        this.build = 69;
+        this.mBound = false;
     }
 
     @Override
@@ -43,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.locationListener = new LocationListener();
+        this.mLocationListener = new LocationListener(this);
     }
 
     @Override
@@ -55,35 +51,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.isStarted = savedInstanceState.getBoolean(LOG_TAG, true);
+    }
+
+    @Override
     protected void onResume() {
         Log.i(LOG_TAG, "onResume");
         super.onResume();
-        locationListener.setRequestLocationUpdates();
+        mLocationListener.setRequestLocationUpdates();
     }
 
     @Override
     protected void onResumeFragments() {
+        Log.i(LOG_TAG, "onResumeFragments");
         super.onResumeFragments();
-        fragmentChanger(CHANGE_TO_STARTFRAGMENT);
+        if (isStarted) {
+            fragmentChanger(CHANGE_TO_STARTFRAGMENT, null);
+        }
     }
 
     @Override
     public void onBackPressed() {
         Log.i(LOG_TAG, "onBackPressed");
+        super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         Log.i(LOG_TAG, "onPause");
         super.onPause();
-        locationListener.removeRequestLocationUpdates();
+        mLocationListener.removeRequestLocationUpdates();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean(LOG_TAG, this.isStarted);
     }
 
     @Override
     protected void onStop() {
         Log.i(LOG_TAG, "onStop");
         super.onStop();
-        if(bound) {
+        if (mBound) {
             Log.i(LOG_TAG, "unbindService");
             unbindService(serviceConnection);
             setBound(false);
@@ -96,84 +108,46 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void setBound(boolean b) {
-        this.bound = b;
-        Log.i(LOG_TAG, "setBound = " + String.valueOf(bound));
+    private void setBound(boolean b) {
+        this.mBound = b;
+        Log.i(LOG_TAG, "setBound = " + String.valueOf(mBound));
     }
 
     public boolean getBound() {
-        Log.i(LOG_TAG, "getBound = " + String.valueOf(bound));
-        return this.bound;
+        Log.i(LOG_TAG, "getBound = " + String.valueOf(mBound));
+        return this.mBound;
     }
 
     public ChelocService getChelocService() {
         Log.i(LOG_TAG, "getChelocService");
-        return this.chelocService;
+        return this.mChelocService;
     }
 
-    public void setServiceStatusOnTextView() {
-        Log.i(LOG_TAG, "setServiceStatusOnTextView");
-        if(this.chelocService.isWork()) {
-            ((TextView) (findViewById(R.id.serviceStatusTextView))).setText(R.string.serviceRun);
-        }
-        else {
-            ((TextView) (findViewById(R.id.serviceStatusTextView))).setText(R.string.serviceStop);
-        }
+    public LocationListener getLocationListener() {
+        return this.mLocationListener;
     }
 
-    private void setProperties() {
-        try {
-            ((TextView)findViewById(R.id.verTextView))
-                    .setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName
-                            + "build" + this.build);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setOnClickListeners() {
-        ButtonClickListener listener = new ButtonClickListener(MainActivity.this);
-        findViewById(R.id.exitButton).setOnClickListener(listener);
-        findViewById(R.id.toSetPosButton).setOnClickListener(listener);
-        findViewById(R.id.savePosButon).setOnClickListener(listener);
-        findViewById(R.id.loadPosButton).setOnClickListener(listener);
-        findViewById(R.id.setPosWithoutUpdatesButton).setOnClickListener(listener);
-        findViewById(R.id.setPosWithUpdatesButton).setOnClickListener(listener);
-        findViewById(R.id.cancelSetLocationButton).setOnClickListener(listener);
-        findViewById(R.id.stopMockLocationButton).setOnClickListener(listener);
-    }
-
-    public void fragmentChanger(int changeTo) {
+    public void fragmentChanger(int changeTo, @Nullable CoordinatesForExtra coordinatesForExtra) {
+        this.isStarted = false;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         switch (changeTo) {
             case CHANGE_TO_STARTFRAGMENT:
                 ft.replace(R.id.mainActivityLyaout, StartFragment.newInstance());
                 break;
             case CHANGE_TO_SETPOSFRAGMENT:
-                ft.replace(R.id.mainActivityLyaout, SetPosFragment.newInstance());
+                ft.replace(R.id.mainActivityLyaout, SetPosFragment.newInstance(coordinatesForExtra));
+                ft.addToBackStack("setpos");
                 break;
         }
         ft.commit();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            ButtonClickListener.setSetPosScrollLayout(this,
-                    data.getExtras().getString(ScrollActivity.EXTRA_LATITUDE),
-                    data.getExtras().getString(ScrollActivity.EXTRA_LONGTITUDE),
-                    data.getExtras().getString(ScrollActivity.EXTRA_ALTITUDE));
-        }
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.i(LOG_TAG, "onServiceConnected");
-            chelocService = ((ServiceBinder) service).getService();
+            mChelocService = ((ServiceBinder) service).getService();
             setBound(true);
-            setServiceStatusOnTextView();
         }
 
         @Override
