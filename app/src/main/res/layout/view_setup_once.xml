@@ -20,7 +20,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/cancelOneButton"
+                android:id="@+id/deleteOneButton"
                 android:layout_gravity="right"
                 android:background="@android:drawable/ic_menu_close_clear_cancel"
                 android:textSize="8sp"
@@ -112,7 +112,7 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:ems="4"
                     android:id="@+id/timeEditText"
                     android:layout_weight="0"

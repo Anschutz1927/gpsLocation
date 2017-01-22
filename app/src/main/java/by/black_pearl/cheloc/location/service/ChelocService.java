@@ -5,11 +5,20 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
+import by.black_pearl.cheloc.ViewSetupOnceModel;
 import by.black_pearl.cheloc.location.Coordinates;
 import by.black_pearl.cheloc.location.LocationProvider;
 
 public class ChelocService extends Service {
 
+    private static final String FILE_NAME = "tmpManager.txt";
     final String LOG_TAG = "ChelocService";
     private IBinder iBinder = new ServiceBinder(ChelocService.this);
     InfoMessages infoMessages;
@@ -95,5 +104,40 @@ public class ChelocService extends Service {
                 intent.getIntExtra("speedMode", 0),
                 intent.getBooleanExtra("randPos", true)
         );
+    }
+
+    public void setManagerMockLocation(ArrayList<ViewSetupOnceModel> listModels) {
+        saveModelsToTempFile(listModels);
+    }
+
+    private void saveModelsToTempFile(ArrayList<ViewSetupOnceModel> listModels) {
+        String data = "";
+        for (int i = 0; i < listModels.size(); i++) {
+            data = listModels.get(i).isDisableEmulationGps() + "%" +
+                    listModels.get(i).isDisableGps() + "%" +
+                    listModels.get(i).getLatitude() + "%" +
+                    listModels.get(i).getLongtitude() + "%" +
+                    listModels.get(i).getAltitude() + "%" +
+                    listModels.get(i).getTime() + "\n";
+        }
+        try {
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(FILE_NAME, MODE_PRIVATE)));
+            writer.write(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loadModelFromTempFile();
+    }
+
+    private void loadModelFromTempFile() {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput(FILE_NAME)));
+            while (reader.readLine() != null) {
+                String data = reader.toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

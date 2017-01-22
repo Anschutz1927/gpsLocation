@@ -62,7 +62,7 @@ public class AddressBlock extends LinearLayout {
     }
 
     private void generateAddressBlock(boolean isEditable) {
-        LayoutInflater.from(mContext).inflate(R.layout.address_block, this, true);
+        LayoutInflater.from(mContext).inflate(R.layout.view_address_block, this, true);
         if(isEditable) {
             addressTextView = new EditText(mContext);
             ((EditText) addressTextView).requestTextFocus();

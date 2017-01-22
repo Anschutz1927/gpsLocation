@@ -53,7 +53,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_start, container, false);
         initialize(v);
-        printVersion(v);
+        printVersion((TextView) v.findViewById(R.id.verTextView));
         printLastKnownLocation();
         ((MainActivity) getActivity()).getLocationListener().registerOnLocationChangedListener(getListener());
         return v;
@@ -121,14 +121,14 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         this.mGpsLayout = (LinearLayout) v.findViewById(R.id.gpsLocationLayout);
     }
 
-    private void printVersion(View v) {
+    private void printVersion(TextView textView) {
         try {
-            ((TextView) v.findViewById(R.id.verTextView)).setText(
+            textView.setText(
                     getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName
             );
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            ((TextView) v.findViewById(R.id.verTextView)).setText("Unknown version.");
+            textView.setText("Unknown version.");
         }
     }
 

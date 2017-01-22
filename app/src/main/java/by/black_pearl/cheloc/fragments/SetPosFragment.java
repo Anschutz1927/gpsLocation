@@ -10,13 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import by.black_pearl.cheloc.R;
+import by.black_pearl.cheloc.ViewSetupOnceModel;
 import by.black_pearl.cheloc.activity.mainActivity.MainActivity;
 import by.black_pearl.cheloc.activity.scrollActivity.ScrollActivity;
 import by.black_pearl.cheloc.location.Coordinates;
 import by.black_pearl.cheloc.location.CoordinatesForExtra;
 import by.black_pearl.cheloc.location.service.ChelocService;
+import by.black_pearl.cheloc.views.ManagerView;
 import by.black_pearl.cheloc.views.SetupperView;
 
 import static android.app.Activity.RESULT_OK;
@@ -30,6 +35,7 @@ public class SetPosFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOG_TAG = "SetPosFragment";
     private SetupperView mSetupperView;
+    private ManagerView mManagerView;
     private Button mSetupperButton;
     private Button mManagerButton;
     private SetupperView.ButtonsOnCliclListener listener;
@@ -54,7 +60,9 @@ public class SetPosFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mSetupperView = new SetupperView(getContext(), getArguments(), getListener());
+        this.mSetupperView = new SetupperView(getContext(), getArguments(), getSetupperListener());
+        this.mManagerView = new ManagerView(getContext(), getManagerListener());
+        this.mManagerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -65,6 +73,7 @@ public class SetPosFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.managerButton).setOnClickListener(this);
         FrameLayout fLayout = (FrameLayout) v.findViewById(R.id.setPosLayout);
         fLayout.addView(this.mSetupperView);
+        fLayout.addView(this.mManagerView);
         this.mSetupperButton = (Button) v.findViewById(R.id.setupperButton);
         this.mSetupperButton.setEnabled(false);
         this.mManagerButton = (Button) v.findViewById(R.id.managerButton);
@@ -78,15 +87,19 @@ public class SetPosFragment extends Fragment implements View.OnClickListener {
             case R.id.setupperButton:
                 mSetupperButton.setEnabled(false);
                 mManagerButton.setEnabled(true);
+                this.mSetupperView.setVisibility(View.VISIBLE);
+                this.mManagerView.setVisibility(View.GONE);
                 break;
             case R.id.managerButton:
                 mSetupperButton.setEnabled(true);
                 mManagerButton.setEnabled(false);
+                this.mSetupperView.setVisibility(View.GONE);
+                this.mManagerView.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-    public SetupperView.ButtonsOnCliclListener getListener() {
+    public SetupperView.ButtonsOnCliclListener getSetupperListener() {
         return new SetupperView.ButtonsOnCliclListener() {
             @Override
             public void onClickSaveLocationButton(SetupperView setupperView) {
@@ -136,6 +149,30 @@ public class SetPosFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onClickCancelButton() {
+                getActivity().onBackPressed();
+            }
+        };
+    }
+
+    private ManagerView.ButtonsOnClickListener getManagerListener() {
+        return new ManagerView.ButtonsOnClickListener() {
+            @Override
+            public void onClickCancelButton() {
+                getActivity().onBackPressed();
+            }
+
+            @Override
+            public void onClickRunButton(ArrayList<ViewSetupOnceModel> listModels) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                if (mainActivity.getBound()) {
+                    ChelocService chelocService = mainActivity.getChelocService();
+                    if (!chelocService.isWork()) {
+                        Toast.makeText(getContext(), "Loading to start manager.", Toast.LENGTH_SHORT).show();
+                        chelocService.setManagerMockLocation(listModels);
+                    } else {
+                        Toast.makeText(getContext(), "Need to stop service at first!", Toast.LENGTH_LONG).show();
+                    }
+                }
                 getActivity().onBackPressed();
             }
         };

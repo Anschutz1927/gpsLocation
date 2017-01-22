@@ -28,7 +28,7 @@ public class SetupperView extends LinearLayout implements View.OnClickListener {
         super(context);
         this.mContext = context;
         this.mListener = listener;
-        LayoutInflater.from(context).inflate(R.layout.setupper_view, this, true);
+        LayoutInflater.from(context).inflate(R.layout.view_setupper, this, true);
         printExtraToView(arguments);
         setListeners();
     }
