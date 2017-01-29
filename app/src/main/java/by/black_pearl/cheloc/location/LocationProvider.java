@@ -9,6 +9,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import by.black_pearl.cheloc.ViewSetupOnceModel;
 
 /**
  * Provide access to set new location.
@@ -170,5 +173,53 @@ public class LocationProvider {
         catch (Exception e) {
             Log.i(LOG_TAG, e.getMessage());
         }
+    }
+
+    public void runManagerMockLocation(final ArrayList<ViewSetupOnceModel> listModels) {
+        final Handler managerHandler = new Handler();
+        final Runnable managerRunnable = new Runnable() {
+            private boolean isStarted = false;
+            private int n = 0;
+            @Override
+            public void run() {
+                if(listModels.get(n).isDisableEmulationGps() && listModels.get(n).isDisableGps()) {
+                    if(listModels.get(n).isDisableEmulationGps()) {
+                        Toast.makeText(context, "DisableEmulationGps", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(context, "DisableGps", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    if(!isStarted) {
+                        isStarted = true;
+                        setLocation(getCoordinates(listModels.get(n)), true);
+                    }
+                    else {
+                        changeLocation(getCoordinates(listModels.get(n)), true);
+                    }
+
+                }
+                n++;
+                if(n < listModels.size()) {
+                    managerHandler.postDelayed(this, listModels.get(n - 1).getTime() * 1000 * 60);
+                }
+                else {
+                    stopSetLocation();
+                }
+            }
+
+            private Coordinates getCoordinates(ViewSetupOnceModel viewSetupOnceModel) {
+                return new Coordinates(
+                        viewSetupOnceModel.getLatitude(),
+                        viewSetupOnceModel.getLongtitude(),
+                        viewSetupOnceModel.getAltitude(),
+                        0.0f,
+                        0,
+                        true
+                );
+            }
+        };
+        handler.post(managerRunnable);
     }
 }
